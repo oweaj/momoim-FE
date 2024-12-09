@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import "./globals.css";
+import "@/styles/globals.css";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import TanStackProvider from "@/lib/TanStackProvider";
+import Header from "./_component/Header";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
+const pretendard = localFont({
+  src: "../assets/fonts/PretendardVariable.woff2",
+  variable: "--font-pretendard",
+  display: "swap",
   weight: "100 900",
 });
 
@@ -24,8 +23,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+    <html lang="ko-KR">
+      <body className={`${pretendard.variable} font-pretendard antialiased`}>
+        <TanStackProvider>
+          <Header />
+          <main className="mx-auto max-w-screen-xl px-4 pt-[80px]">{children}</main>
+          <SpeedInsights />
+        </TanStackProvider>
+      </body>
     </html>
   );
 }
