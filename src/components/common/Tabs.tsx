@@ -1,24 +1,19 @@
-"use client";
-
-import sectionSlider from "@/lib/sectionSlider";
-import { usePathname, useRouter } from "next/navigation";
 import { useRef } from "react";
-
-interface Props {
-  tabs: Tab[];
-}
+import sectionSlider from "@/lib/sectionSlider";
 
 interface Tab {
   name: string;
   value: string;
-  path: string;
 }
 
-export default function Tabs({ tabs }: Props) {
+interface TabsProps {
+  tabs: Tab[];
+  selectedValue: string;
+  onSelect: (value: string) => void;
+}
+
+export default function Tabs({ tabs, selectedValue, onSelect }: TabsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
-  const path = usePathname();
-  const currentId = path.split("/").pop()?.split("?")[0] ?? "";
 
   return (
     <div
@@ -28,22 +23,20 @@ export default function Tabs({ tabs }: Props) {
         sectionSlider(e, containerRef);
       }}
       ref={containerRef}
-      className="flex w-full gap-4 overflow-auto px-6 scrollbar-hide"
+      className="flex w-full gap-4 overflow-auto font-semibold text-gray-500 scrollbar-hide"
     >
       {tabs.map((tab) => {
-        const isSelected = tab.value === currentId;
+        const isSelected = tab.value === selectedValue;
         return (
           <div key={tab.value} className="flex flex-col items-center">
             <button
               type="button"
-              onClick={() => {
-                router.push(tab.path);
-              }}
-              className={`whitespace-nowrap p-4 text-sm sm:text-base ${isSelected && "font-bold"} w-auto`}
+              onClick={() => onSelect(tab.value)}
+              className={`whitespace-nowrap p-4 text-sm sm:text-base ${isSelected && "text-gray-900"} w-auto`}
             >
               {tab.name}
             </button>
-            {isSelected && <div className="h-0.5 w-full bg-black" />}
+            {isSelected && <div className="h-0.5 w-full bg-gray-900" />}
           </div>
         );
       })}

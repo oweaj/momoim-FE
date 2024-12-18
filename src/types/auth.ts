@@ -33,3 +33,11 @@ export interface LoginResponse {
     interestCategories: string[];
   };
 }
+
+export interface User {
+  name: string;
+  profileImage: string;
+  email: string;
+  regions: string[];
+  interestCategories: string[];
+}

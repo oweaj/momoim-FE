@@ -100,6 +100,9 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      dropShadow: {
+        base: "0px 0px 10px rgba(0,0,0,0.1)",
+      },
     },
   },
   plugins: [require("tailwindcss-animate"), require("tailwind-scrollbar-hide")],
