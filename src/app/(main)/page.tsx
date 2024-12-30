@@ -1,12 +1,5 @@
-"use client";
-
-import { Suspense } from "react";
-import MoimPage from "./_component/MoimPage";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <MoimPage />
-    </Suspense>
-  );
+  return redirect("/all");
 }

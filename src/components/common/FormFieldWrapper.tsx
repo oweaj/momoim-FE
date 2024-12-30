@@ -7,6 +7,7 @@ interface FormFieldWrapperProps {
   label: string;
   placeholder?: string;
   type?: string;
+  customStyle?: string;
   renderContent?: (field: any) => JSX.Element; // 커스텀 렌더링 지원
 }
 
@@ -16,6 +17,7 @@ export function FormFieldWrapper({
   label,
   placeholder = "",
   type = "text",
+  customStyle,
   renderContent,
 }: FormFieldWrapperProps) {
   return (
@@ -26,7 +28,11 @@ export function FormFieldWrapper({
         <FormItem data-testid={`${name}-section`}>
           <FormLabel className="text-base">{label}</FormLabel>
           <FormControl>
-            {renderContent ? renderContent(field) : <Input placeholder={placeholder} type={type} {...field} />}
+            {renderContent ? (
+              renderContent(field)
+            ) : (
+              <Input className={customStyle} placeholder={placeholder} type={type} {...field} />
+            )}
           </FormControl>
           <FormMessage />
         </FormItem>

@@ -12,6 +12,7 @@ export function SelectButton({ selected, children, onClick, className = "" }: Se
     <button
       type="button"
       onClick={onClick}
+      aria-selected={selected}
       className={cn(
         "box-border whitespace-nowrap px-5 py-3 font-medium leading-snug",
         "rounded-xl",

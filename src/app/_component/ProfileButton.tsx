@@ -56,7 +56,11 @@ export default function ProfileButton({ user }: ProfileButtonProps) {
       </button>
       {isOpen && (
         <div className="absolute right-0 z-50 mt-2 w-32 rounded-md border border-gray-200 bg-white py-1 font-medium drop-shadow-base">
-          <Link href="/mypage" className="flex items-center px-4 py-2 hover:text-main-selected" onClick={closePopover}>
+          <Link
+            href="/mypage/schedules"
+            className="flex items-center px-4 py-2 hover:text-main-selected"
+            onClick={closePopover}
+          >
             마이페이지
           </Link>
           <button

@@ -5,6 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import TanStackProvider from "@/lib/TanStackProvider";
 import { Toaster } from "@/components/ui/toaster";
 import Header from "./_component/Header";
+import CreateMoimButton from "./_component/CreateMoimButton";
 
 const pretendard = localFont({
   src: "../assets/fonts/PretendardVariable.woff2",
@@ -31,6 +32,7 @@ export default function RootLayout({
         <TanStackProvider>
           <Header />
           <main className="mx-auto max-w-screen-xl px-4 pt-[80px]">{children}</main>
+          <CreateMoimButton />
           <Toaster />
           <SpeedInsights />
         </TanStackProvider>

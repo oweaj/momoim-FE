@@ -3,20 +3,13 @@
 import React from "react";
 import Logo from "@/assets/svg/logo.svg";
 import Link from "next/link";
-import { useUser } from "@/queries/auth/useUser";
-import AuthButtons from "./AuthButtons";
-import ProfileButton from "./ProfileButton";
+import dynamic from "next/dynamic";
+
+const AuthSection = dynamic(() => import("./AuthSection"), {
+  ssr: false, // 클라이언트에서만 렌더링하도록 설정
+});
 
 export default function Header() {
-  const { data: user, isLoading } = useUser();
-
-  const renderAuthSection = () => {
-    if (isLoading) {
-      return null;
-    }
-    return user ? <ProfileButton user={user} /> : <AuthButtons />;
-  };
-
   return (
     <header className="fixed z-50 w-full bg-white">
       <nav className="mx-auto flex h-[80px] max-w-screen-xl items-center justify-between px-4">
@@ -25,7 +18,7 @@ export default function Header() {
             <Logo aria-label="Website Logo" />
           </Link>
         </h1>
-        <ul className="flex items-center gap-4">{renderAuthSection()}</ul>
+        <AuthSection />
       </nav>
     </header>
   );

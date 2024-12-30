@@ -41,3 +41,13 @@ export interface User {
   regions: string[];
   interestCategories: string[];
 }
+
+export type DuplicateCheckType = "name" | "email";
+
+export interface DuplicateCheckResult {
+  isAvailable: boolean;
+  message: string;
+}
+export type DuplicateCheckResults = Record<DuplicateCheckType, DuplicateCheckResult | null>;
+
+export type DuplicateChecked = Record<DuplicateCheckType, boolean>;

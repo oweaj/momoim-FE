@@ -40,22 +40,22 @@ export default function Chip({ each }: Props) {
       fc: "text-chipfc-online",
       bg: "bg-chipbg-online",
     },
-    OFFLINE: {
-      font: "오프라인",
-      fc: "text-chipfc-offline",
-      bg: "bg-chipbg-offline",
-    },
     REGULAR: {
       font: "정기 모임",
       fc: "text-chipfc-regular",
       bg: "bg-chipbg-regular",
     },
   };
+
+  const validKey = Object.keys(EACH_CHIP_STYLE).includes(each) ? each : "OFFLINE";
+
+  if (validKey === "OFFLINE") return null;
+
   return (
     <div
-      className={`rounded-2xl px-2 py-1 font-bold sm:px-2 sm:py-1 ${EACH_CHIP_STYLE[each].fc} ${EACH_CHIP_STYLE[each].bg}`}
+      className={`rounded-2xl px-2 py-1 sm:px-2 sm:py-1 ${EACH_CHIP_STYLE[validKey].fc} ${EACH_CHIP_STYLE[validKey].bg}`}
     >
-      {EACH_CHIP_STYLE[each].font}
+      {EACH_CHIP_STYLE[validKey].font}
     </div>
   );
 }

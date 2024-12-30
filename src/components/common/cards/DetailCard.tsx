@@ -1,9 +1,9 @@
-import { dateFormatter } from "@/lib/dateFormatter";
 import { leftTimeGenerator } from "@/lib/leftTimeGenerator";
 import { GatheringContent } from "@/types/common/gatheringContent";
 import { Members } from "@/types/common/members";
 import Image from "next/image";
 import Logo from "@/assets/svg/logo.svg";
+import { format } from "date-fns";
 import DefaultProfile from "../../../assets/svg/default-profile.svg";
 import LocalIcon from "../../../assets/svg/geography_map_solid.svg";
 import Person from "../../../assets/svg/person.svg";
@@ -41,7 +41,7 @@ export default function DetailCard({ data, members, customButton }: Props) {
                   </div>
                 </div>
                 <div>·</div>
-                <div>{dateFormatter(data?.nextGatheringAt as string).simple}</div>
+                <div>{format(data?.nextGatheringAt, "MM월 dd일 hh:mm")}</div>
                 <div>·</div>
                 <div className="flex">
                   <div className="flex">
@@ -51,7 +51,7 @@ export default function DetailCard({ data, members, customButton }: Props) {
                 </div>
               </div>
               <div className="flex gap-1 text-sm">
-                {[data?.status, data?.gatheringType, data?.isPeriodic].map((each, idx) => {
+                {[data?.status, data?.location, data?.isPeriodic].map((each, idx) => {
                   const key = `chip:${data?.id}:${idx}`;
                   if (typeof each === "boolean") {
                     return each ? <Chip key={key} each="REGULAR" /> : null;

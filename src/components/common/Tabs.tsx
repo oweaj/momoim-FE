@@ -1,3 +1,5 @@
+"use client";
+
 import { useRef } from "react";
 import sectionSlider from "@/lib/sectionSlider";
 
@@ -14,7 +16,6 @@ interface TabsProps {
 
 export default function Tabs({ tabs, selectedValue, onSelect }: TabsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-
   return (
     <div
       role="button"
@@ -23,7 +24,7 @@ export default function Tabs({ tabs, selectedValue, onSelect }: TabsProps) {
         sectionSlider(e, containerRef);
       }}
       ref={containerRef}
-      className="flex w-full gap-4 overflow-auto font-semibold text-gray-500 scrollbar-hide"
+      className="flex w-full cursor-default gap-4 overflow-auto font-semibold text-gray-500 scrollbar-hide"
     >
       {tabs.map((tab) => {
         const isSelected = tab.value === selectedValue;

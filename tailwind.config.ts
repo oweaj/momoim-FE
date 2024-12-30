@@ -78,7 +78,6 @@ export default {
           canceled: "#C73465", // 모임  취소
           finishied: "#777780", // 모임 종료
           online: "#FF6C00", // 온라인
-          offline: "#5A25E9", // 오프라인
           regular: "#00CB00", // 정기
         },
         chipbg: {
@@ -88,7 +87,6 @@ export default {
           canceled: "#FFE9F2",
           finishied: "#F0F1F6",
           online: "#FFFDC3",
-          offline: "#ECEAF5",
           regular: "#E6F8E7",
         },
       },
@@ -105,5 +103,5 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require("tailwind-scrollbar-hide")],
+  plugins: [require("tailwindcss-animate"), require("tailwind-scrollbar-hide"), require("@tailwindcss/typography")],
 } satisfies Config;

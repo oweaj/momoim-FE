@@ -59,37 +59,40 @@ describe("StepTwo 컴포넌트", () => {
       it("특정 지역 선택 시 '전체' 선택이 해제된다", async () => {
         const regionSection = screen.getByTestId("regions-section");
         const seoulButton = within(regionSection).getByRole("button", { name: "서울" });
+        const allButton = within(regionSection).getByRole("button", { name: "전체" });
+
         await userEvent.click(seoulButton);
 
-        const allButton = within(regionSection).getByRole("button", { name: "전체" });
-        expect(allButton).not.toHaveClass("bg-gray-250");
-        expect(seoulButton).toHaveClass("bg-gray-250");
+        expect(seoulButton).toHaveAttribute("aria-selected", "true");
+        expect(allButton).toHaveAttribute("aria-selected", "false");
       });
 
       it("'전체' 선택 시 다른 모든 지역 선택이 해제된다", async () => {
         const regionSection = screen.getByTestId("regions-section");
+        const allButton = within(regionSection).getByRole("button", { name: "전체" });
         const seoulButton = within(regionSection).getByRole("button", { name: "서울" });
         const busanButton = within(regionSection).getByRole("button", { name: "부산" });
 
         await userEvent.click(seoulButton);
         await userEvent.click(busanButton);
 
-        const allButton = within(regionSection).getByRole("button", { name: "전체" });
         await userEvent.click(allButton);
 
-        expect(allButton).toHaveClass("bg-gray-250");
-        expect(seoulButton).not.toHaveClass("bg-gray-250");
-        expect(busanButton).not.toHaveClass("bg-gray-250");
+        expect(allButton).toHaveAttribute("aria-selected", "true");
+        expect(seoulButton).toHaveAttribute("aria-selected", "false");
+        expect(busanButton).toHaveAttribute("aria-selected", "false");
       });
 
       it("선택된 지역을 모두 해제하면 자동으로 '전체'가 선택된다", async () => {
         const regionSection = screen.getByTestId("regions-section");
         const seoulButton = within(regionSection).getByRole("button", { name: "서울" });
+        const allButton = within(regionSection).getByRole("button", { name: "전체" });
+
         await userEvent.click(seoulButton);
         await userEvent.click(seoulButton);
 
-        const allButton = within(regionSection).getByRole("button", { name: "전체" });
-        expect(allButton).toHaveClass("bg-gray-250");
+        expect(allButton).toHaveAttribute("aria-selected", "true");
+        expect(seoulButton).toHaveAttribute("aria-selected", "false");
       });
     });
   });

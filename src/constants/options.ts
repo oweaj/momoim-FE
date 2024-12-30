@@ -1,4 +1,4 @@
-const COMMON_REGIONS = [
+export const COMMON_REGIONS = [
   { value: "SEOUL", label: "서울" },
   { value: "BUSAN", label: "부산" },
   { value: "DAEGU", label: "대구" },
@@ -88,7 +88,7 @@ export const SUB_CATEGORIES = {
     { value: "INTERNATIONAL", label: "해외여행" },
   ],
   STUDY: [
-    { value: "LANGUAGES", label: "외국어" },
+    { value: "LANGUAGE", label: "외국어" },
     { value: "FINANCE", label: "재테크" },
     { value: "SELF_DEVELOP", label: "자기계발" },
   ],
@@ -112,7 +112,7 @@ export const GATHERING_TYPE = [
 
 export const ONLINE_PLATFORM = [
   { value: "DISCORD", label: "디스코드" },
-  { value: "ZOOM", label: "줌" },
+  { value: "ZOOM", label: "ZOOM" },
   { value: "GOOGLEMEET", label: "구글밋" },
   { value: "ZEP", label: "ZEP" },
   { value: "ETC", label: "기타" },

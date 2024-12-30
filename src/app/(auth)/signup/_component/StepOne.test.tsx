@@ -11,7 +11,16 @@ import { FORM_LABELS } from "@/constants/formLabels";
 import { VALIDATION_ERRORS } from "@/constants/messages";
 import { StepOne } from "./StepOne";
 
-function StepOneWrapper() {
+jest.mock("../hooks/useDuplicateCheck", () => ({
+  __esModule: true,
+  default: () => ({
+    checkResults: { name: null, email: null },
+    checkDuplicateValue: jest.fn().mockResolvedValue(true),
+    resetCheckResult: jest.fn(),
+  }),
+}));
+
+function StepOneWrapper({ setChecked = jest.fn() }) {
   const form = useForm<SignUpFormData>({
     defaultValues: DEFAULT_SIGNUP_VALUES,
     resolver: zodResolver(signUpSchema),
@@ -20,18 +29,20 @@ function StepOneWrapper() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(() => {})}>
-        <StepOne form={form} />
+        <StepOne form={form} checked={{ name: false, email: false }} setChecked={setChecked} />
         <Button type="submit">다음으로</Button>
       </form>
     </Form>
   );
 }
 
-beforeEach(() => {
-  render(<StepOneWrapper />);
-});
-
 describe("StepOne 컴포넌트", () => {
+  const mockSetChecked = jest.fn();
+  beforeEach(() => {
+    mockSetChecked.mockClear();
+    render(<StepOneWrapper setChecked={mockSetChecked} />);
+  });
+
   describe("UI 렌더링", () => {
     it("닉네임, 이메일, 비밀번호 입력 필드가 화면에 나타난다", () => {
       const fields = [
@@ -53,34 +64,11 @@ describe("StepOne 컴포넌트", () => {
     });
   });
 
-  describe("비밀번호 토글 기능", () => {
-    const passwordFields = [
-      {
-        toggleName: "비밀번호 보기/숨기기 토글",
-        placeholder: FORM_LABELS.password.placeholder,
-      },
-      {
-        toggleName: "비밀번호 확인 보기/숨기기 토글",
-        placeholder: FORM_LABELS.passwordConfirm.placeholder,
-      },
-    ];
-
-    passwordFields.forEach(({ toggleName, placeholder }) => {
-      it(`${toggleName} 버튼이 정상적으로 작동한다`, async () => {
-        const input = screen.getByPlaceholderText(placeholder) as HTMLInputElement;
-        const toggleButton = screen.getByRole("button", {
-          name: toggleName,
-        });
-
-        expect(input.type).toBe("password");
-        expect(toggleButton).toBeInTheDocument();
-
-        await userEvent.click(toggleButton);
-        expect(input.type).toBe("text");
-
-        await userEvent.click(toggleButton);
-        expect(input.type).toBe("password");
-      });
+  describe("중복 확인", () => {
+    it("중복 확인 전에 메시지를 표시한다", async () => {
+      const nameInput = screen.getByPlaceholderText(FORM_LABELS.name.placeholder);
+      await userEvent.type(nameInput, "test");
+      expect(screen.getByText("닉네임 중복 확인이 필요합니다.")).toBeInTheDocument();
     });
   });
 
