@@ -6,10 +6,9 @@ import LocalIcon from "@/assets/svg/geography_map_solid.svg";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/common/modal/Modal";
 import thumbnail from "@/assets/images/thumbnail.png";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { getLocation, getSubcategory } from "@/lib/getLabel";
 import { format } from "date-fns";
-import { usePostReview } from "@/queries/mypage/useReview";
 import ReviewPostSection from "./ReviewPostSection";
 
 interface Props {
@@ -17,23 +16,12 @@ interface Props {
 }
 
 export default function UnreviewedCard({ data }: Props) {
-  const [rating, setRating] = useState(0);
-  const contentRef = useRef<HTMLTextAreaElement | null>(null);
-  const { mutate: post } = usePostReview();
-
-  const handlePostReview = () => {
-    post({
-      gatheringId: data?.gatheringId as number,
-      score: rating,
-      title: data.name,
-      comment: contentRef.current ? contentRef.current.value : "",
-    });
-  };
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <div className="max-w-[375px]">
       <div className="flex w-full items-center gap-2 py-2 sm:items-center">
-        <div className="relative flex aspect-square h-[20%] w-[20%] items-center justify-center overflow-hidden rounded-[20px] border-2 border-solid border-gray-200 xs:h-24 xs:w-24">
+        <div className="relative flex aspect-square h-[20%] w-[20%] items-center justify-center overflow-hidden rounded-xl border-2 border-solid border-gray-200 xs:h-24 xs:w-24">
           <Image alt="thumbnail" src={data?.image ? data?.image : thumbnail.src} fill className="object-cover" />
         </div>
         <div
@@ -57,17 +45,18 @@ export default function UnreviewedCard({ data }: Props) {
                 </div>
               </div>
               <div>·</div>
-              <div>{format(data?.nextGatheringAt, "MM월 dd일 hh:mm")}</div>
+              <div>{format(data?.nextGatheringAt, "MM월 dd일 HH:mm")}</div>
             </div>
           </div>
         </div>
       </div>
       <Modal
         title="리뷰 쓰기"
-        content={<ReviewPostSection data="" setRating={setRating} customRef={contentRef} />}
-        size="w-full h-[55%]"
-        showFooter
-        onSubmit={handlePostReview}
+        content={<ReviewPostSection data={data} closeModal={setModalOpen} />}
+        size="w-[520px] p-6 overflow-auto scrollbar-hide"
+        showFooter={false}
+        open={modalOpen}
+        action={setModalOpen}
         triggerButton={
           <Button variant="outline" className="w-full">
             리뷰 작성하기

@@ -16,7 +16,7 @@ const NextDate = () => {
 
 export const gatheringCreateSchema = z
   .object({
-    name: z.string().min(2, "모임 제목은 2글자 이상이어야 합니다").max(25, "모임 제목은 25글자 이하여야 합니다."),
+    name: z.string().min(2, "모임 제목은 2글자 이상이어야 합니다").max(20, "모임 제목은 20글자 이하여야 합니다."),
     isPeriodic: z.boolean(),
     image: z.string().nullable(),
     category: z.enum(CATEGORY_VALUES, { message: "카테고리를 선택해주세요." }),

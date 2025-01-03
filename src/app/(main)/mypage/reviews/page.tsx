@@ -9,6 +9,8 @@ import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import UnreviewedCard from "../_components/UnreviewedCard";
 import Tags from "../../../../components/common/Tags";
 import EmptyStatePicker from "../_components/EmptyStatePicker";
+import MyReviewsSkeleton from "../_components/skeletons/MyReviewsSkeleton";
+import ClientRedirectHandler from "../_components/ClientRedirectHandler";
 
 interface Review {
   reviewId: number;
@@ -48,8 +50,8 @@ export default function MyReview() {
     enabled: !!hasNextPage,
   });
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error loading data</p>;
+  if (isLoading) return <MyReviewsSkeleton />;
+  if (error) return <ClientRedirectHandler />;
 
   return (
     <div className="flex flex-col gap-2">
@@ -63,23 +65,24 @@ export default function MyReview() {
       />
       <div>
         {(!sub || sub === "un-review") &&
-          (data?.pages && data.pages[0].data.length ? (
-            data.pages.map((item) =>
+          (data?.pages && data.pages[0].data.length > 0 ? (
+            data.pages.map((item, pageIndex) =>
               item.data.map((unreview: GatheringContent, idx: number) => {
+                const isLastElement = pageIndex === data.pages.length - 1 && idx === item.data.length - 1;
                 return (
                   <div key={`r:${unreview.gatheringId}`}>
                     <UnreviewedCard data={unreview} />
-                    {item.data.length - 1 !== idx ? <hr className="my-[16px]" /> : <br />}
+                    {!isLastElement && <hr className="my-[16px]" />}
                   </div>
                 );
               }),
             )
           ) : (
-            <EmptyStatePicker type="review" sub={sub} />
+            <EmptyStatePicker type="reviews" sub={sub} />
           ))}
         {sub === "my-review" &&
-          (data?.pages && data.pages[0].data.length ? (
-            data.pages.map((item) =>
+          (data?.pages && data.pages[0].data.length > 0 ? (
+            data.pages.map((item, pageIndex) =>
               item.data.map((review: Review, idx: number) => {
                 const r = {
                   title: review.title,
@@ -93,10 +96,12 @@ export default function MyReview() {
                   gatheringName: review.gatheringName,
                   gatheringStatus: review.gatheringStatus,
                 };
+                const isLastElement = pageIndex === data.pages.length - 1 && idx === item.data.length - 1;
+
                 return (
                   <div key={`r:${review.gatheringId}`}>
                     <ReviewCard review={r} typeData={t} isWriter />
-                    {item.data.length - 1 !== idx ? <hr className="my-[16px]" /> : <br />}
+                    {!isLastElement && <hr className="my-[16px]" />}
                   </div>
                 );
               }),

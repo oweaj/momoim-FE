@@ -8,8 +8,10 @@ export default function BackButton() {
   const handleBack = () => router.back();
 
   return (
-    <button type="button" className="py-1 pr-1" onClick={handleBack}>
-      <ArrowLeft className="h-6 w-6" />
-    </button>
+    <div>
+      <button type="button" className="p-1" onClick={handleBack}>
+        <ArrowLeft className="h-6 w-6" />
+      </button>
+    </div>
   );
 }

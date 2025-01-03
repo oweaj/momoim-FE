@@ -30,7 +30,7 @@ export default function AddressInput({ form, field }: FormFieldProps) {
   return (
     <div className="space-y-4">
       <Modal
-        size="w-[30rem] h-[35rem] max-sm:w-[27rem] max-xs:w-80"
+        size="w-[30rem] max-sm:w-11/12 max-xs:w-full"
         open={open}
         action={setOpen}
         triggerButton={

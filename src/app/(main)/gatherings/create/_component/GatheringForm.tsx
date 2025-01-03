@@ -1,6 +1,5 @@
 "use client";
 
-import { DateTimePicker } from "@/app/(main)/gatherings/create/_component/DateTimePicker";
 import { FormFieldWrapper } from "@/components/common/FormFieldWrapper";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
@@ -9,12 +8,14 @@ import { DEFAULT_GATHERING_CREATE_VALUES, gatheringCreateSchema } from "@/schema
 import inputDataFormat from "@/lib/inputDataFormat";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useCreate } from "@/queries/gathering/useCreate";
 import { CategoryKey, GatheringCreateFormData } from "@/types/category";
 import { useRouter } from "next/navigation";
 import Tiptab from "@/components/common/editor/Tiptab";
 import { COMMON_CATEGORIES } from "@/constants/options";
 import { Select } from "@/components/common/select/Select";
+import { useGatheringCreate } from "@/queries/gatherings-workspace/useGatheringCreate";
+import { DatePicker } from "@/components/common/DatePicker";
+import { format } from "date-fns";
 import FormOnlineAddress from "./FormOnlineAddress";
 import FormTypeButton from "./FormTypeButton";
 import GatheringUploadImage from "./GatheringUploadImage";
@@ -22,8 +23,8 @@ import AddressInput from "./AddressInput";
 import SubCategoryButton from "./SubCategoryButton";
 
 export default function GatheringForm() {
-  const { mutate: gatheringCreate } = useCreate();
   const router = useRouter();
+  const { mutate: gatheringCreate } = useGatheringCreate();
 
   const form = useForm({
     resolver: zodResolver(gatheringCreateSchema),
@@ -162,7 +163,15 @@ export default function GatheringForm() {
           label="날짜"
           renderContent={(field) => (
             <div>
-              <DateTimePicker field={field} />
+              <DatePicker
+                value={field.value}
+                onChange={(value) => {
+                  const formattedValue = value ? format(value, "yyyy-MM-dd HH:mm:ss") : undefined;
+                  field.onChange(formattedValue);
+                }}
+                triggerClassName="h-12 w-full border-gray-500"
+                showTimePicker
+              />
             </div>
           )}
         />
@@ -192,7 +201,7 @@ export default function GatheringForm() {
             작성 취소
           </Button>
           <Button type="submit" className="flex-1" size="lg">
-            모임 생성 완료
+            모임 만들기
           </Button>
         </div>
       </form>

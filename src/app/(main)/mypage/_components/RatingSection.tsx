@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import EmptyStar from "@/assets/svg/empty-star.svg";
-import HalfStar from "@/assets/svg/half-star.svg";
 import Star from "@/assets/svg/star.svg";
 
 export default function RatingSection({
@@ -10,26 +9,24 @@ export default function RatingSection({
   onRatingChange?: (rating: number) => void;
   score: number;
 }) {
-  const [rating, setRating] = useState(score); // 실제 별점
   const [hoverRating, setHoverRating] = useState(score); // 드래그 중 표시할 별점
-  const [isActive, setIsActive] = useState(false); // 점수 고정 여부
+  const [isActive, setIsActive] = useState(true); // 점수 고정 여부
 
   // 별 렌더링
   const renderStars = (currentRating: number) => {
     return Array.from({ length: 5 }, (_, index) => {
       const starIndex = index + 1;
       if (currentRating >= starIndex) return <Star key={index} />;
-      if (currentRating >= starIndex - 0.5) return <HalfStar key={index} />;
       return <EmptyStar key={index} />;
     });
   };
 
-  // 별점 계산
+  // 별점 계산 (1점 단위로 변경)
   const calculateRating = (clientX: number, rect: DOMRect) => {
     const offsetX = clientX - rect.left; // 클릭한 지점의 X좌표
     if (offsetX < 0 || offsetX > rect.width) return null; // 별 영역 밖이면 null 반환
     const starWidth = rect.width / 5;
-    return Math.min(5, Math.max(0, Math.round((offsetX / starWidth) * 2) / 2)); // 반 별 단위 계산
+    return Math.min(5, Math.max(0, Math.round(offsetX / starWidth))); // 1점 단위 계산
   };
 
   // 마우스 이동 - 별 영역 내부에서만 점수 계산
@@ -51,7 +48,6 @@ export default function RatingSection({
     if (isActive) {
       setIsActive(false); // 점수 해제
     } else {
-      setRating(newRating);
       setIsActive(true); // 점수 고정
       if (onRatingChange) onRatingChange(newRating);
     }
@@ -71,7 +67,7 @@ export default function RatingSection({
         }
       }}
     >
-      {renderStars(isActive ? rating : hoverRating)}
+      {renderStars(isActive ? score : hoverRating)}
     </div>
   );
 }

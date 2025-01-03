@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import ReviewPostSection from "@/app/(main)/mypage/_components/ReviewPostSection";
 import { format } from "date-fns";
-import { useEditReview, useDeleteReview } from "@/queries/mypage/useReview";
+import { useDeleteReview } from "@/queries/mypage/useReview";
+import { Review } from "@/types/review";
 import Stars from "../Star";
 import { Modal } from "../modal/Modal";
 
@@ -9,14 +10,6 @@ interface Props {
   review: Review;
   typeData: Mypage | Detail;
   isWriter: boolean;
-}
-
-interface Review {
-  title: string;
-  comment: string;
-  score: number;
-  createdAt: string;
-  reviewId: number;
 }
 
 interface Mypage {
@@ -33,10 +26,9 @@ interface Detail {
 
 export default function ReviewCard({ review, typeData, isWriter }: Props) {
   const reviewRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLTextAreaElement | null>(null);
-  const [rating, setRating] = useState(review.score);
   const [longComment, setLongComment] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [reviewModal, setReviewModal] = useState(false);
 
   const timeAgo = (dateString: string) => {
     const givenDate = new Date(dateString);
@@ -50,17 +42,7 @@ export default function ReviewCard({ review, typeData, isWriter }: Props) {
     return `${differenceInMinutes}분 전`;
   };
 
-  const { mutate: edit } = useEditReview();
   const { mutate: remove } = useDeleteReview();
-
-  const handleEditSubmit = () => {
-    edit({
-      gatheringId: review.reviewId,
-      score: rating,
-      title: review.title,
-      comment: contentRef.current ? contentRef.current.value : "",
-    });
-  };
 
   const handleDeleteSubmit = () => {
     remove({ id: review.reviewId });
@@ -68,17 +50,18 @@ export default function ReviewCard({ review, typeData, isWriter }: Props) {
 
   useEffect(() => {
     if (reviewRef.current) {
-      // 이건 변화에 따라 useEffect로 계속 동적 관리해줘야할 수도 있다
       if (reviewRef.current.scrollHeight > reviewRef.current.clientHeight) {
         setLongComment(true);
       }
     }
   }, []);
   return (
-    <div className="flex w-full max-w-[1100px] flex-col items-start gap-2 py-4 sm:items-center">
+    <div className="flex w-full flex-col items-start gap-2 py-4 sm:items-center">
       <div className="flex w-full justify-between">
-        <div className="text-lg font-bold text-gray-900">{review.title}</div>
-        <div>
+        <div className="overflow-hidden text-ellipsis whitespace-nowrap text-lg font-bold text-gray-900">
+          {review.title}
+        </div>
+        <div className="flex items-center justify-center">
           <Stars score={review.score} />
         </div>
       </div>
@@ -110,24 +93,18 @@ export default function ReviewCard({ review, typeData, isWriter }: Props) {
       </div>
       <div className="flex w-full justify-between text-xs text-gray-500 xs:text-sm">
         <div className="flex gap-2.5">
-          <div className="hidden xs:block">{format(review?.createdAt, "yyyy년 MM월 dd일 hh:mm:ss")}</div>
-          <div className="block xs:hidden">{format(review?.createdAt, "MM월 dd일 hh:mm")}</div>
+          <div className="hidden xs:block">{format(review?.createdAt, "yyyy년 MM월 dd일 HH:mm:ss")}</div>
+          <div className="block xs:hidden">{format(review?.createdAt, "MM월 dd일 HH:mm")}</div>
           {isWriter && (
             <>
               <Modal
-                size="w-full h-[55%]"
+                size="w-full"
                 title="리뷰 수정"
                 triggerButton={<button type="button">수정</button>}
-                content={
-                  <ReviewPostSection
-                    data={review.comment}
-                    setRating={setRating}
-                    rating={rating}
-                    customRef={contentRef}
-                  />
-                }
-                showFooter
-                onSubmit={handleEditSubmit}
+                content={<ReviewPostSection reviewData={review} closeModal={setReviewModal} />}
+                open={reviewModal}
+                action={setReviewModal}
+                showFooter={false}
               />
               <button type="button" onClick={handleDeleteSubmit}>
                 삭제

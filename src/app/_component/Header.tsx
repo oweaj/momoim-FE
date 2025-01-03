@@ -12,7 +12,7 @@ const AuthSection = dynamic(() => import("./AuthSection"), {
 export default function Header() {
   return (
     <header className="fixed z-50 w-full bg-white">
-      <nav className="mx-auto flex h-[80px] max-w-screen-xl items-center justify-between px-4">
+      <nav className="layout-container flex h-[80px] items-center justify-between">
         <h1 className="flex items-center gap-6">
           <Link href="/" className="flex text-xl font-bold">
             <Logo aria-label="Website Logo" />

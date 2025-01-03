@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 import { gatheringCreateApi } from "@/api/gatherings";
 
-export const useCreate = () => {
+export const useGatheringCreate = () => {
   const router = useRouter();
 
   return useMutation({

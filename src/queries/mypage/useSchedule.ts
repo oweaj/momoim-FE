@@ -1,10 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { getScheduleApi } from "@/api/schedule";
 
-export const useSchedule = (currentYear: number) => {
+export const useSchedule = (year: number) => {
   return useQuery({
-    queryKey: ["schedule", currentYear],
-    queryFn: () => getScheduleApi(currentYear),
-    staleTime: 0,
+    queryKey: ["schedule", year],
+    queryFn: async () => {
+      const data = await getScheduleApi(year);
+      return data;
+    },
   });
 };

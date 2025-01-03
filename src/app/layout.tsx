@@ -6,6 +6,7 @@ import TanStackProvider from "@/lib/TanStackProvider";
 import { Toaster } from "@/components/ui/toaster";
 import Header from "./_component/Header";
 import CreateMoimButton from "./_component/CreateMoimButton";
+import { Footer } from "./_component/Footer";
 
 const pretendard = localFont({
   src: "../assets/fonts/PretendardVariable.woff2",
@@ -31,7 +32,8 @@ export default function RootLayout({
       <body className={`${pretendard.variable} font-pretendard antialiased`}>
         <TanStackProvider>
           <Header />
-          <main className="mx-auto max-w-screen-xl px-4 pt-[80px]">{children}</main>
+          <main className="layout-container min-h-[calc(100vh-80px)] pt-[80px]">{children}</main>
+          <Footer />
           <CreateMoimButton />
           <Toaster />
           <SpeedInsights />

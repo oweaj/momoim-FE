@@ -29,7 +29,9 @@ export const useReview = (sub: string | null) => {
 export const usePostReview = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (params: ReviewParams) => postReviewApi(params.gatheringId, params.score, params.title, params.comment),
+    mutationFn: (params: ReviewParams) => {
+      return postReviewApi(params.gatheringId, params.score, params.title, params.comment);
+    },
     onSuccess: () => {
       toast({
         title: "리뷰 작성",

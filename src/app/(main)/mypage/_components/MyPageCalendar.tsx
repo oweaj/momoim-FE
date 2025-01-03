@@ -8,6 +8,10 @@ import { cn } from "@/lib/utils";
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
   highlightedDates?: Date[];
   customContent?: { date: Date; content: React.ReactNode }[];
+  onDateChange?: (date: Date) => void;
+  onYearChange?: (year: number) => void;
+  currentMonth: Date;
+  setCurrentMonth: (date: Date) => void;
 };
 
 function IconLeft() {
@@ -26,19 +30,13 @@ function IconRight() {
 }
 function HeadRow() {
   const days = ["일", "월", "화", "수", "목", "금", "토"];
-  const today = new Date().getDay();
   return (
     <tr className="flex w-full justify-between bg-gray-100 px-5 py-6">
-      {days.map((day) => {
-        return (
-          <th
-            key={day}
-            className={`w-6 rounded-md text-center text-base font-normal ${day === days[today] ? "text-main" : "text-muted-foreground"}`}
-          >
-            {day}
-          </th>
-        );
-      })}
+      {days.map((day) => (
+        <th key={day} className="w-6 rounded-md text-center text-base font-normal text-muted-foreground">
+          {day}
+        </th>
+      ))}
     </tr>
   );
 }
@@ -54,7 +52,7 @@ const getModifiers = (customContent: { date: Date; content: React.ReactNode }[])
   );
 };
 
-function Calendar({
+function MyPageCalendar({
   className,
   classNames,
   showOutsideDays = true,
@@ -62,12 +60,13 @@ function Calendar({
   customContent = [],
   onDateChange,
   onYearChange,
+  currentMonth,
+  setCurrentMonth,
   ...props
-}: CalendarProps & { onDateChange?: (date: Date) => void; onYearChange?: (year: number) => void }) {
+}: CalendarProps) {
   const modifiers = getModifiers(customContent);
   const todayDate = new Date();
   const [selectedDate, setSelectedDate] = useState(todayDate);
-  const [currentYear, setCurrentYear] = useState(todayDate.getFullYear());
 
   const renderDay = (date: Date) => {
     const key = date.toISOString().split("T")[0];
@@ -87,14 +86,19 @@ function Calendar({
       date.getMonth() === today.getMonth() &&
       date.getFullYear() === today.getFullYear();
 
+    const isDifferentMonth =
+      date.getMonth() !== currentMonth.getMonth() || date.getFullYear() !== currentMonth.getFullYear();
+
     let additional = "";
 
     if (isSelected) {
       additional = "rounded-full bg-main text-white";
     } else if (isToday) {
       additional = "rounded-full border-[#A9AAF9] border-2 text-main";
+    } else if (isDifferentMonth) {
+      additional = "text-gray-300"; // 표시된 월과 다른 경우 회색
     } else if (custom?.content) {
-      additional = isPast ? "text-gray-400" : " text-main";
+      additional = isPast ? "text-gray-400" : "text-main";
     }
 
     return (
@@ -118,9 +122,9 @@ function Calendar({
   };
 
   const handleMonthChange = (date: Date) => {
+    setCurrentMonth(date);
     const newYear = date.getFullYear();
-    if (newYear !== currentYear) {
-      setCurrentYear(newYear);
+    if (newYear !== currentMonth.getFullYear()) {
       onYearChange?.(newYear);
     }
   };
@@ -128,6 +132,7 @@ function Calendar({
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
+      month={currentMonth}
       onMonthChange={handleMonthChange}
       className={cn(className)}
       modifiers={{
@@ -138,7 +143,6 @@ function Calendar({
       }}
       classNames={{
         months: "w-full border overflow-hidden border-solid rounded-3xl flex flex-col sm:space-x-4 sm:space-y-0",
-        month: "",
         caption: "pt-6 px-5 bg-gray-100 flex justify-center relative items-center text-gray-900 text-lg",
         caption_label: "text-lg font-semibold",
         nav: "space-x-1 flex items-center",
@@ -149,14 +153,8 @@ function Calendar({
         head_row: "flex w-full justify-between",
         head_cell: `text-muted-foreground rounded-md font-normal text-[0.8rem]`,
         row: "flex w-full mt-2 justify-between px-5 border-b border-gray-300 last:border-b-0",
-        day: cn(` hover:bg-none flex flex-col justify-start rounded-full p-0 font-normal aria-selected:opacity-100`),
-        day_range_start: "day-range-start",
-        day_range_end: "day-range-end",
-        day_selected: "text-primary-foreground hover:text-primary-foreground focus:text-primary-foreground",
-        day_outside: "day-outside text-gray-500 aria-selected:bg-accent/50 aria-selected:text-muted-foreground",
-        day_disabled: "text-muted-foreground opacity-50",
-        day_range_middle: "aria-selected:bg-accent aria-selected:text-accent-foreground",
-        day_hidden: "invisible",
+        day: cn(`hover:bg-none flex flex-col justify-start rounded-full p-0 font-normal aria-selected:opacity-100`),
+        day_outside: "text-gray-300",
         ...classNames,
       }}
       components={{
@@ -169,6 +167,7 @@ function Calendar({
     />
   );
 }
-Calendar.displayName = "Calendar";
 
-export { Calendar };
+MyPageCalendar.displayName = "MyPageCalendar";
+
+export { MyPageCalendar };

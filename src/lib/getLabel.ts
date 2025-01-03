@@ -1,4 +1,4 @@
-import { COMMON_CATEGORIES, SUB_CATEGORIES, REGIONS, LOCATIONS } from "@/constants/options";
+import { COMMON_CATEGORIES, SUB_CATEGORIES, REGIONS, LOCATIONS, ONLINE_PLATFORM } from "@/constants/options";
 
 const getSubcategory = (value: string): string | undefined => {
   const subcategory = Object.keys(SUB_CATEGORIES).find((sub) => {
@@ -30,4 +30,9 @@ const getLocation = (value: string): string | undefined => {
   return match?.label;
 };
 
-export { getSubcategory, getCategory, getRegion, getLocation };
+const getOnlinePlatform = (value: string | undefined): string | undefined => {
+  const match = ONLINE_PLATFORM.find((platform) => platform.value === value);
+  return match?.label;
+};
+
+export { getSubcategory, getCategory, getRegion, getLocation, getOnlinePlatform };

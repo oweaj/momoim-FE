@@ -10,7 +10,7 @@ export default function TiptabImage({ editor }: { editor: Editor | null }) {
     const selectFile = files ? files[0] : null;
 
     if (selectFile && editor) {
-      const uploadImage = await ImageUploadApi("thumbnail", selectFile);
+      const uploadImage = await ImageUploadApi("editorImage", selectFile);
       editor.chain().focus().setImage({ src: uploadImage }).run();
 
       const { to } = editor.state.selection;

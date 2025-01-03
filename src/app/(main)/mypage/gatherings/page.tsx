@@ -8,6 +8,8 @@ import { useRef, useState } from "react";
 import { useGathering } from "@/queries/mypage/useGathering";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import EmptyStatePicker from "../_components/EmptyStatePicker";
+import MyGatheringsSkeleton from "../_components/skeletons/MyGatheringsSkeleton";
+import ClientRedirectHandler from "../_components/ClientRedirectHandler";
 
 export default function MyMoim() {
   const observerTarget = useRef<HTMLDivElement>(null);
@@ -40,8 +42,8 @@ export default function MyMoim() {
     enabled: !!hasNextPage,
   });
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error loading data</p>;
+  if (isLoading) return <MyGatheringsSkeleton />;
+  if (error) return <ClientRedirectHandler />;
 
   return (
     <div className="flex flex-col gap-2">
@@ -65,7 +67,7 @@ export default function MyMoim() {
                     router.push(`/gatherings/${moim.gatheringId}`);
                   }}
                 />
-                {data.pages.length - 1 !== idx ? <hr className="my-4" /> : <br />}{" "}
+                {idx !== item.data.length - 1 && <hr className="my-4 border-gray-300" />}
               </div>
             )),
           )
