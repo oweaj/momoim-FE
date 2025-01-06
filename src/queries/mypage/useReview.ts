@@ -1,7 +1,15 @@
-import { useQueryClient, useMutation, useInfiniteQuery } from "@tanstack/react-query";
-import { deleteReviewApi, getReviewsApi, patchReviewApi, postReviewApi } from "@/api/review";
+import { useQueryClient, useMutation, useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import {
+  deleteReviewApi,
+  gatheringReviewsApiClient,
+  getReviewsApi,
+  patchReviewApi,
+  postReviewApi,
+  reviewsAverageApiClient,
+} from "@/api/review";
 import { toast } from "@/hooks/use-toast";
 import { Pagination } from "@/types/pagination";
+import { ReviewAverage } from "@/types/review";
 
 interface ReviewParams {
   gatheringId: number;
@@ -62,7 +70,7 @@ export const useEditReview = () => {
         description: "리뷰가 수정되었습니다!",
         duration: 3000,
       });
-      queryClient.invalidateQueries({ queryKey: ["review"] });
+      queryClient.invalidateQueries({ queryKey: ["review"], exact: false });
     },
     onError: (error: any) => {
       toast({
@@ -85,7 +93,7 @@ export const useDeleteReview = () => {
         description: "리뷰가 삭제되었습니다!",
         duration: 3000,
       });
-      queryClient.invalidateQueries({ queryKey: ["review"] });
+      queryClient.invalidateQueries({ queryKey: ["review"], exact: false });
     },
     onError: (error: any) => {
       toast({
@@ -96,4 +104,30 @@ export const useDeleteReview = () => {
       });
     },
   });
+};
+
+// 리뷰 가져오기
+export const useGatheringReviews = (id: number) => {
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } = useInfiniteQuery({
+    queryKey: ["review", "gatheringReviews", id],
+    queryFn: ({ pageParam = 0 }) => gatheringReviewsApiClient(id, { offset: pageParam * 5, limit: 5 }),
+    getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
+    initialPageParam: 0,
+  });
+  return {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isLoading,
+    isFetchingNextPage,
+  };
+};
+
+// 통계 가져오기
+export const useReviewAverage = (id: number) => {
+  const { data } = useQuery<ReviewAverage>({
+    queryKey: ["review", "average", id],
+    queryFn: reviewsAverageApiClient,
+  });
+  return { data };
 };

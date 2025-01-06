@@ -9,7 +9,7 @@ export const useGatheringDelete = () => {
 
   return useMutation({
     mutationFn: gatheringDeleteApi,
-    onSuccess: (id: number) => {
+    onSuccess: () => {
       toast({
         title: "모임 삭제",
         description: "해당 모임이 삭제되었습니다.",

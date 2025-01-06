@@ -36,6 +36,7 @@ export default function AddressInput({ form, field }: FormFieldProps) {
         triggerButton={
           <Input
             type="text"
+            name="address"
             value={field.value}
             className="h-12 w-full cursor-pointer rounded-md border border-gray-500 px-3 py-1 font-medium text-gray-700"
             placeholder="클릭을 통해 주소를 검색해주세요."

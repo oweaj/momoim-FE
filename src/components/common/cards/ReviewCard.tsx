@@ -29,18 +29,29 @@ export default function ReviewCard({ review, typeData, isWriter }: Props) {
   const [longComment, setLongComment] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [reviewModal, setReviewModal] = useState(false);
+  const [relativeTime, setRelativeTime] = useState("");
 
-  const timeAgo = (dateString: string) => {
-    const givenDate = new Date(dateString);
-    const currentDate = new Date();
-    const differenceInMillis = Number(currentDate) - Number(givenDate);
-    const differenceInDays = Math.floor(differenceInMillis / (24 * 60 * 60 * 1000));
-    const differenceInHours = Math.floor(differenceInMillis / (60 * 60 * 1000));
-    const differenceInMinutes = Math.floor(differenceInMillis / (60 * 1000));
-    if (differenceInDays >= 1) return `${differenceInDays}일 전`;
-    if (differenceInHours >= 1) return `${differenceInHours}시간 전`;
-    return `${differenceInMinutes}분 전`;
-  };
+  useEffect(() => {
+    const timeAgo = (dateString: string) => {
+      const givenDate = new Date(dateString);
+      const currentDate = new Date();
+      const differenceInMillis = Number(currentDate) - Number(givenDate);
+
+      const differenceInDays = Math.floor(differenceInMillis / (24 * 60 * 60 * 1000));
+      const differenceInHours = Math.floor(differenceInMillis / (60 * 60 * 1000));
+      const differenceInMinutes = Math.floor(differenceInMillis / (60 * 1000));
+      if (!differenceInMinutes) return "방금 전";
+      if (differenceInDays >= 1) return `${differenceInDays}일 전`;
+      if (differenceInHours >= 1) return `${differenceInHours}시간 전`;
+      return `${differenceInMinutes}분 전`;
+    };
+    setRelativeTime(timeAgo(review.createdAt));
+
+    const interval = setInterval(() => {
+      setRelativeTime(timeAgo(review.createdAt));
+    }, 60000);
+    return () => clearInterval(interval);
+  }, [review.createdAt]);
 
   const { mutate: remove } = useDeleteReview();
 
@@ -116,7 +127,7 @@ export default function ReviewCard({ review, typeData, isWriter }: Props) {
           {typeData && "writer" in typeData && (
             <div className="max-w-20 overflow-hidden text-ellipsis whitespace-nowrap">{typeData?.writer}</div>
           )}
-          <div>{timeAgo(review.createdAt)}</div>
+          <div>{relativeTime}</div>
         </div>
       </div>
     </div>

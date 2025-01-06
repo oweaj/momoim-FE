@@ -10,3 +10,8 @@ export const loginApi = async (formData: LoginFormData) => {
   const { data } = await clientAxios.post<LoginResponse>("/api/auths/signin", formData);
   return data;
 };
+
+export const logoutApi = async () => {
+  const { data } = await clientAxios.post("/api/auths/logout");
+  return data;
+};

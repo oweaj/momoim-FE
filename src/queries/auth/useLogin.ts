@@ -14,8 +14,10 @@ export const useLogin = () => {
     onSuccess: (data) => {
       if (data.success) {
         // 쿠키 설정
-        Cookies.set("accessToken", data.data.accessToken.token);
-        Cookies.set("tokenExpiresAt", String(data.data.accessToken.expiredAt));
+        Cookies.set("accessToken", data.data.accessToken.token, {
+          secure: true,
+          sameSite: "lax",
+        });
 
         // 유저 정보 업데이트
         const user: User = {
@@ -26,6 +28,7 @@ export const useLogin = () => {
           interestCategories: data.data.interestCategories,
         };
         queryClient.setQueryData(["user"], user);
+        queryClient.refetchQueries({ queryKey: ["gatherings"] });
 
         router.push("/");
       }

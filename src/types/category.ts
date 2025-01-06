@@ -7,7 +7,7 @@ export interface GatheringCreateFormData {
   isPeriodic: boolean;
   image: string | null;
   category: string;
-  subCategory: string | string[];
+  subCategory: string;
   location: string;
   address: string;
   nextGatheringAt: string;
@@ -17,6 +17,7 @@ export interface GatheringCreateFormData {
   gatheringType?: string;
   detailAddress?: string;
   onlinePlatform?: string;
+  status?: string;
 }
 
 export type SubCategoryValueKey = (typeof SUB_CATEGORIES)[keyof typeof SUB_CATEGORIES][number]["value"];

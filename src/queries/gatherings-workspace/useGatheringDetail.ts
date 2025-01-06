@@ -4,10 +4,10 @@ import { useQuery } from "@tanstack/react-query";
 
 // 모임 상세 조회
 export const useGetGatheringDetail = (id: number) => {
-  const { data } = useQuery<GatheringDetail>({
+  const { data, isLoading } = useQuery<GatheringDetail>({
     queryKey: ["gatheringDetail", id],
     queryFn: gatheringDetailGetApiClient,
   });
 
-  return data;
+  return { data, isLoading };
 };

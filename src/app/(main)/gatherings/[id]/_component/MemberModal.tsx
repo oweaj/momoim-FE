@@ -17,12 +17,12 @@ interface MemberProps {
 
 export default function MemberModal({ members, managerName, setMemberOpen }: MemberProps) {
   const [open, setOpen] = useState<{ [key: number]: boolean }>({});
-  const { mutate: getheringMemberDelete } = useGatheringMemberDelete();
+  const { mutate: gatheringMemberDelete } = useGatheringMemberDelete();
   const { data } = useUser();
   const params = useParams();
 
   const handleMutate = (gatheringMemberId: number, memberName: string, id: number) => {
-    getheringMemberDelete({ gatheringMemberId, memberName, id });
+    gatheringMemberDelete({ gatheringMemberId, memberName, id });
     setOpen((prev) => ({
       ...prev,
       [gatheringMemberId]: false,

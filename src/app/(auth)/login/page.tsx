@@ -12,7 +12,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/schemas/auth";
 import { useLogin } from "@/queries/auth/useLogin";
 import { FORM_LABELS } from "@/constants/formLabels";
-import { AuthLayout } from "../_component/AuthLayout";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -32,7 +31,7 @@ export default function Login() {
   };
 
   return (
-    <AuthLayout>
+    <>
       <h2 className="mb-8 text-center text-2xl font-bold">로그인</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -75,6 +74,6 @@ export default function Login() {
           </div>
         </form>
       </Form>
-    </AuthLayout>
+    </>
   );
 }

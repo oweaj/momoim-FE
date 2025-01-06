@@ -6,7 +6,7 @@ export interface GatheringContent extends DetailContent {
   members?: Members[];
 }
 
-interface DetailContent {
+export interface DetailContent {
   address?: string;
   location: string;
   capacity: number;

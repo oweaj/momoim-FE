@@ -1,4 +1,4 @@
-import { clientAxios } from "@/lib/axios";
+import { clientAxios, serverAxios } from "@/lib/axios";
 import { Pagination } from "@/types/pagination";
 
 export const getReviewsApi = async (type: string, page: Pagination) => {
@@ -28,4 +28,32 @@ export const patchReviewApi = async (id: number, score: number, title: string, c
     comment,
   });
   return data;
+};
+
+// 모임 리뷰 조회
+export const gatheringReviewsApi = async (id: number, { offset, limit }: { offset: number; limit: number }) => {
+  const { data } = await serverAxios.get(`api/reviews/${id}`, { params: { offset, limit } });
+  return {
+    data: data.data,
+    nextPage: data.data.length === limit ? offset / limit + 1 : null,
+  };
+};
+
+export const gatheringReviewsApiClient = async (id: number, { offset, limit }: { offset: number; limit: number }) => {
+  const { data } = await clientAxios.get(`api/reviews/${id}`, { params: { offset, limit } });
+  return {
+    data: data.data,
+    nextPage: data.data.length === limit ? offset / limit + 1 : null,
+  };
+};
+
+// 모임 리뷰통계
+export const reviewsAverageApi = async (id: number) => {
+  const { data } = await serverAxios.get(`api/reviews/${id}/statistic`);
+  return data.data;
+};
+
+export const reviewsAverageApiClient = async ({ queryKey }: any) => {
+  const { data } = await clientAxios.get(`api/reviews/${queryKey[2]}/statistic`);
+  return data.data;
 };

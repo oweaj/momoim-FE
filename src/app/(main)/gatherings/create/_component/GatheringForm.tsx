@@ -4,7 +4,7 @@ import { FormFieldWrapper } from "@/components/common/FormFieldWrapper";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { FieldError, useForm } from "react-hook-form";
-import { DEFAULT_GATHERING_CREATE_VALUES, gatheringCreateSchema } from "@/schemas/gatheringCreate";
+import { getDefaultData, gatheringCreateSchema } from "@/schemas/gatheringCreate";
 import inputDataFormat from "@/lib/inputDataFormat";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,20 +15,34 @@ import { COMMON_CATEGORIES } from "@/constants/options";
 import { Select } from "@/components/common/select/Select";
 import { useGatheringCreate } from "@/queries/gatherings-workspace/useGatheringCreate";
 import { DatePicker } from "@/components/common/DatePicker";
+import { useGatheringPatch } from "@/queries/gatherings-workspace/useGatheringPatch";
 import { format } from "date-fns";
+import { useEffect } from "react";
 import FormOnlineAddress from "./FormOnlineAddress";
 import FormTypeButton from "./FormTypeButton";
 import GatheringUploadImage from "./GatheringUploadImage";
 import AddressInput from "./AddressInput";
 import SubCategoryButton from "./SubCategoryButton";
 
-export default function GatheringForm() {
+interface GatheringFormProps {
+  mode: "create" | "edit";
+  id?: number;
+  defaultData?: Partial<GatheringCreateFormData>;
+}
+
+export default function GatheringForm({ mode, id, defaultData }: GatheringFormProps) {
   const router = useRouter();
   const { mutate: gatheringCreate } = useGatheringCreate();
+  const { mutate: gatheringPatch } = useGatheringPatch();
+  const defaultFormData = () => {
+    return id && mode === "edit" ? getDefaultData(defaultData) : getDefaultData();
+  };
+
+  useEffect(() => window.scrollTo(0, 0), []);
 
   const form = useForm({
     resolver: zodResolver(gatheringCreateSchema),
-    defaultValues: DEFAULT_GATHERING_CREATE_VALUES,
+    defaultValues: defaultFormData(),
   });
 
   const onSubmit = (values: GatheringCreateFormData) => {
@@ -38,7 +52,16 @@ export default function GatheringForm() {
     const updateAddressData = { ...values, address: fullAddress };
 
     const { gatheringType, detailAddress, onlinePlatform, ...submitFormData } = updateAddressData;
-    gatheringCreate(submitFormData);
+
+    if (id && mode === "edit") {
+      const updateEditFormData = {
+        ...submitFormData,
+        status: defaultData?.status,
+      };
+      gatheringPatch({ formData: updateEditFormData, id });
+    } else {
+      gatheringCreate(submitFormData);
+    }
   };
 
   return (
@@ -145,7 +168,6 @@ export default function GatheringForm() {
             control={form.control}
             name="address"
             label="주소"
-            placeholder="모임을 진행할 주소를 입력해주세요."
             customStyle="border-gray-500 text-gray-700 font-medium"
             renderContent={(field) => <AddressInput form={form} field={field} />}
           />
@@ -182,10 +204,12 @@ export default function GatheringForm() {
           renderContent={(field) => (
             <Input
               type="number"
+              name="capacity"
               className="inputCountButton border-gray-500 pl-4 text-gray-700"
               value={field.value}
               min={2}
               max={50}
+              onWheel={(e) => (e.target as HTMLInputElement).blur()}
               onChange={(e) => field.onChange(inputDataFormat(e.target.value))}
             />
           )}
@@ -197,11 +221,11 @@ export default function GatheringForm() {
           renderContent={(field) => <Tiptab field={field} />}
         />
         <div className="flex items-center justify-center gap-2">
-          <Button type="button" className="flex-1" size="lg" variant="outline" onClick={() => router.push("/")}>
+          <Button type="button" className="flex-1" size="lg" variant="outline" onClick={() => router.back()}>
             작성 취소
           </Button>
           <Button type="submit" className="flex-1" size="lg">
-            모임 만들기
+            {mode === "create" ? "모임 만들기" : "모임 수정하기"}
           </Button>
         </div>
       </form>

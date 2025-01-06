@@ -11,7 +11,8 @@ interface Props {
 export default function ProgressBar({ capacity, participantCount, percentage }: Props) {
   const progressed =
     percentage || (capacity && participantCount ? Math.round((participantCount / capacity) * 100) : undefined);
-  if (progressed)
+
+  if (progressed || !participantCount)
     return (
       <div aria-label="Progress Bar" className="my-2 h-[6px] w-full rounded-lg bg-gray-300">
         <motion.div

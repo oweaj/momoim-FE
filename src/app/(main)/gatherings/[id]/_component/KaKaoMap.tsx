@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Map, MapMarker, useKakaoLoader } from "react-kakao-maps-sdk";
 import Link from "next/link";
+import Marker from "@/assets/images/makrer.png";
 import MapSkeleton from "./MapSkeleton";
 
 export default function KaKaoMap({ address }: { address: string | undefined }) {
@@ -9,6 +10,9 @@ export default function KaKaoMap({ address }: { address: string | undefined }) {
     libraries: ["services"],
   });
   const [coordinates, setCoordinates] = useState({ lat: 33.5563, lng: 126.79581 });
+  const [map, setMap] = useState<any>(null);
+  const mapContainerRef = useRef(null);
+  const onCreate = (newMap: any) => setMap(newMap);
 
   useEffect(() => {
     if (!address || error) return;
@@ -26,11 +30,27 @@ export default function KaKaoMap({ address }: { address: string | undefined }) {
     });
   }, [address, error]);
 
+  useEffect(() => {
+    const handleMapResize = () => {
+      if (map && mapContainerRef.current) {
+        map.relayout();
+        map.setCenter(new kakao.maps.LatLng(coordinates.lat, coordinates.lng));
+      }
+    };
+    if (mapContainerRef.current) {
+      const observer = new ResizeObserver(handleMapResize);
+      observer.observe(mapContainerRef.current);
+
+      return () => observer.disconnect();
+    }
+    return undefined;
+  }, [map, coordinates]);
+
   const addressMapUrl = `https://map.kakao.com/link/map/${encodeURIComponent(address!)},${coordinates.lat},${coordinates.lng}`;
 
   return (
     <Link href={addressMapUrl} target="_blank" rel="noopener noreferrer">
-      <div className="flex flex-col gap-2">
+      <div ref={mapContainerRef} className="flex flex-col gap-2">
         <h3 className="text-xl font-semibold">모임 장소</h3>
         {error ? (
           <MapSkeleton />
@@ -43,8 +63,15 @@ export default function KaKaoMap({ address }: { address: string | undefined }) {
               draggable={false}
               scrollwheel={false}
               level={3}
+              onCreate={onCreate}
             >
-              <MapMarker position={coordinates} />
+              <MapMarker
+                position={coordinates}
+                image={{
+                  src: Marker.src,
+                  size: { width: 40, height: 40 },
+                }}
+              />
             </Map>
             <div className="p-5">
               <p>{address}</p>

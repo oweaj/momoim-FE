@@ -30,16 +30,21 @@ export const gatheringJoinCancelApi = async (id: number) => {
 };
 
 // 모임 수정
-export const gatheringPatchApi = async (id: number | undefined) => {
-  const { data } = await clientAxios.patch(`/api/gatherings/workspace/${id}`);
-  return data;
+export const gatheringPatchApi = async ({
+  formData,
+  id,
+}: {
+  formData: GatheringCreateFormData;
+  id: number;
+}): Promise<number> => {
+  await clientAxios.patch(`/api/gatherings/workspace/${id}`, formData);
+  return id;
 };
 
 // 모임 삭제
-
-export const gatheringDeleteApi = async (id: number): Promise<number> => {
-  await clientAxios.delete(`/api/gatherings/workspace/${id}/cancel`);
-  return id;
+export const gatheringDeleteApi = async (id: number) => {
+  const data = await clientAxios.delete(`/api/gatherings/workspace/${id}/cancel`);
+  return data;
 };
 
 // 모임 맴버 제외

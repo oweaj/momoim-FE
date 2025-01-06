@@ -9,7 +9,7 @@ import KaKaoMap from "./_component/KaKaoMap";
 export default function GatheringDetailPage() {
   const params = useParams();
   const id = Number(params.id);
-  const data = useGetGatheringDetail(id);
+  const { data } = useGetGatheringDetail(id);
   const dataContent = data?.gatheringContent;
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export default function GatheringDetailPage() {
   }, [id]);
 
   return (
-    <div className="w-full max-md:w-full">
+    <div className="w-full">
       <div className="flex max-w-[56rem] flex-col gap-10">
         <Viewer content={dataContent?.description} />
         {dataContent?.location !== "ONLINE" && <KaKaoMap address={dataContent?.address} />}

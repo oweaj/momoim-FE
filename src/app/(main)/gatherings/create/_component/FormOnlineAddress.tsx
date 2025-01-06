@@ -8,6 +8,7 @@ export default function FormOnlineAddress({ form, field }: FormFieldProps) {
     <div className="space-y-4">
       <Select
         data={ONLINE_PLATFORM}
+        name="address"
         size="w-full h-12 border-gray-500 text-gray-700 font-medium"
         value={field.value}
         onChange={(value) => {

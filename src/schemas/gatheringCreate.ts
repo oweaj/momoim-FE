@@ -1,5 +1,6 @@
-import { COMMON_CATEGORIES, SUB_CATEGORIES } from "@/constants/options";
+import { COMMON_CATEGORIES, ONLINE_PLATFORM, SUB_CATEGORIES } from "@/constants/options";
 import { GatheringCreateFormData, SubCategoryValueKey } from "@/types/category";
+import { format } from "date-fns";
 import * as z from "zod";
 
 const CATEGORY_VALUES = COMMON_CATEGORIES.map((category) => category.value) as [string, ...string[]];
@@ -45,19 +46,27 @@ export const gatheringCreateSchema = z
 
 export type GatheringCreateFormType = z.infer<typeof gatheringCreateSchema>;
 
-export const DEFAULT_GATHERING_CREATE_VALUES: GatheringCreateFormData = {
-  name: "",
-  isPeriodic: false,
-  image: null,
-  category: COMMON_CATEGORIES[0].value,
-  subCategory: "",
-  location: "",
-  address: "",
-  nextGatheringAt: "",
-  capacity: 2,
-  description: "",
-  tags: [""],
-  gatheringType: "OFFLINE",
-  detailAddress: "",
-  onlinePlatform: "",
+export const getDefaultData = (dataContent?: Partial<GatheringCreateFormData>): GatheringCreateFormData => {
+  const gatheringType = dataContent?.location === "ONLINE" ? "ONLINE" : "OFFLINE";
+  const onlineAddressCheck = ONLINE_PLATFORM.find(({ value }) => dataContent?.address === value);
+  const nextGatheringAt = dataContent?.nextGatheringAt
+    ? format(dataContent?.nextGatheringAt, "yyyy-MM-dd HH:mm:ss")
+    : undefined;
+
+  return {
+    name: dataContent?.name || "",
+    isPeriodic: dataContent?.isPeriodic || false,
+    image: dataContent?.image || null,
+    category: dataContent?.category || COMMON_CATEGORIES[0].value,
+    subCategory: dataContent?.subCategory || "",
+    location: dataContent?.location || "",
+    address: dataContent?.address || "",
+    nextGatheringAt: nextGatheringAt || "",
+    capacity: Number(dataContent?.capacity) || 2,
+    description: dataContent?.description || "",
+    tags: [""],
+    gatheringType,
+    detailAddress: "",
+    onlinePlatform: onlineAddressCheck?.value || "",
+  };
 };

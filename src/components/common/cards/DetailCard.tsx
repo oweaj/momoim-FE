@@ -46,7 +46,7 @@ export default function DetailCard({ id, detailData }: { id: number; detailData:
             <div className="flex items-center gap-1">
               <div>{format(data.nextGatheringAt, "yyyy년 MM월 dd일 HH:mm")}</div>
               <div>·</div>
-              <div className="flex">
+              <div className="flex items-center">
                 <div className="flex">
                   <Person />
                 </div>
@@ -56,22 +56,26 @@ export default function DetailCard({ id, detailData }: { id: number; detailData:
           </div>
           <div className="flex gap-2 text-sm">
             {[data.status, data.location, data.isPeriodic].map((each, idx) => {
-              const key = `chip:${data.id}:${idx}`;
+              const key = `chip:${data?.id}:${idx}`;
+              if (each === "OPEN") {
+                const status = data?.capacity === data?.participantCount ? "CLOSED" : "OPEN";
+                return <Chip key={key} each={status} />;
+              }
               if (typeof each === "boolean") {
                 return each ? <Chip key={key} each="REGULAR" /> : null;
               }
-              return <Chip key={key} each={each} />;
+              return each ? <Chip key={key} each={each} /> : null;
             })}
           </div>
           <div className="flex w-full items-center justify-between gap-2">
             <div className="flex items-center gap-2">
-              <div className="relative flex h-8 w-8 items-center overflow-hidden rounded-full">
+              <div className="relative flex h-[34px] w-[34px] items-center overflow-hidden rounded-full">
                 {data.managerProfileImage === "DEFAULT_PROFILE_IMAGE" ? (
                   <DefaultProfile />
                 ) : (
                   <Image
                     layout="fill"
-                    objectFit="contain"
+                    objectFit="cover"
                     alt="managerProfileImage"
                     src={data.managerProfileImage || ""}
                   />
@@ -80,7 +84,12 @@ export default function DetailCard({ id, detailData }: { id: number; detailData:
               <div>{data.managerName}</div>
             </div>
             {data.managerId && (
-              <DetailCardMember members={detailData.members} managerName={data.managerName} defaultView={false} />
+              <DetailCardMember
+                data={data}
+                members={detailData.members}
+                managerName={data.managerName}
+                defaultView={false}
+              />
             )}
           </div>
         </div>
