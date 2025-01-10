@@ -9,8 +9,7 @@ interface Props {
 }
 
 export default function ProgressBar({ capacity, participantCount, percentage }: Props) {
-  const progressed =
-    percentage || (capacity && participantCount ? Math.round((participantCount / capacity) * 100) : undefined);
+  const progressed = percentage || (capacity && participantCount ? Math.round((participantCount / capacity) * 100) : 0);
 
   if (progressed || !participantCount)
     return (

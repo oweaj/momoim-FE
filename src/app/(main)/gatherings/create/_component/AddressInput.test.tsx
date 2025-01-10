@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { useForm } from "react-hook-form";
-import { DEFAULT_GATHERING_CREATE_VALUES, gatheringCreateSchema } from "@/schemas/gatheringCreate";
+import { getDefaultData, gatheringCreateSchema } from "@/schemas/gatheringCreate";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import { FormFieldWrapper } from "@/components/common/FormFieldWrapper";
@@ -20,8 +20,8 @@ jest.mock("react-daum-postcode", () => {
 
 function AddressInputComponent() {
   const form = useForm({
-    resolver: zodResolver(gatheringCreateSchema),
-    defaultValues: DEFAULT_GATHERING_CREATE_VALUES,
+    resolver: zodResolver(gatheringCreateSchema(false)),
+    defaultValues: getDefaultData(),
   });
 
   form.setValue = mockOnComplete;

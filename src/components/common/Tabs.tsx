@@ -12,9 +12,10 @@ interface TabsProps {
   tabs: Tab[];
   selectedValue: string;
   onSelect: (value: string) => void;
+  prefetch?: (value: string) => void;
 }
 
-export default function Tabs({ tabs, selectedValue, onSelect }: TabsProps) {
+export default function Tabs({ tabs, selectedValue, onSelect, prefetch }: TabsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   return (
     <div
@@ -31,6 +32,11 @@ export default function Tabs({ tabs, selectedValue, onSelect }: TabsProps) {
         return (
           <div key={tab.value} className="flex flex-col items-center">
             <button
+              onMouseEnter={() => {
+                if (prefetch) {
+                  prefetch(tab.value);
+                }
+              }}
               type="button"
               onClick={() => onSelect(tab.value)}
               className={`whitespace-nowrap p-4 text-sm sm:text-base ${isSelected && "text-gray-900"} w-auto`}

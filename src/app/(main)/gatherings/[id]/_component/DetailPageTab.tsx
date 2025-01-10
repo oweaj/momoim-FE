@@ -4,9 +4,14 @@ import { GATHERING_DETAIL_TABS } from "@/constants/gatheringDetailTabs";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 export default function DetailPageTab({ id }: { id: number }) {
   const pathname = usePathname();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, [pathname]);
 
   return (
     <nav>

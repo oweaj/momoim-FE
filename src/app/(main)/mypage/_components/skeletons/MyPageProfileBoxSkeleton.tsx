@@ -20,17 +20,6 @@ export default function MyPageProfileBoxSkeleton() {
           </div>
         </div>
       </div>
-      <div className="flex w-full cursor-default gap-4 overflow-auto font-semibold text-gray-500 scrollbar-hide">
-        <div className="flex h-[56px] w-[90px] items-center justify-center">
-          <Skeleton className="h-5 w-16 rounded-2xl bg-gray-200 px-2 py-1 sm:px-2 sm:py-1" />
-        </div>
-        <div className="flex h-[56px] w-[90px] items-center justify-center">
-          <Skeleton className="h-5 w-16 rounded-2xl bg-gray-200 px-2 py-1 sm:px-2 sm:py-1" />
-        </div>
-        <div className="flex h-[56px] w-[90px] items-center justify-center">
-          <Skeleton className="h-5 w-16 rounded-2xl bg-gray-200 px-2 py-1 sm:px-2 sm:py-1" />
-        </div>
-      </div>
     </div>
   );
 }

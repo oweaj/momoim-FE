@@ -1,4 +1,4 @@
-import { DEFAULT_GATHERING_CREATE_VALUES, gatheringCreateSchema } from "@/schemas/gatheringCreate";
+import { getDefaultData, gatheringCreateSchema } from "@/schemas/gatheringCreate";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { fireEvent, render, screen, within } from "@testing-library/react";
@@ -12,8 +12,8 @@ const mockChange = jest.fn();
 
 function FormOnlineAddressComponent() {
   const form = useForm({
-    resolver: zodResolver(gatheringCreateSchema),
-    defaultValues: DEFAULT_GATHERING_CREATE_VALUES,
+    resolver: zodResolver(gatheringCreateSchema(false)),
+    defaultValues: getDefaultData(),
   });
 
   return (

@@ -34,16 +34,17 @@ export default function MoimCard({ type, data, customOnClick }: Props) {
                 FINISHED: "종료된 모임",
               }[data?.status as string] || ""}
             </div>
-          ) : null}
-          <Image
-            alt="thumbnail"
-            src={data?.image || thumbnail.src}
-            fill
-            priority
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover"
-            loading="eager"
-          />
+          ) : (
+            <Image
+              alt="thumbnail"
+              src={data?.image || thumbnail.src}
+              fill
+              priority
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className="object-cover"
+              loading="eager"
+            />
+          )}
         </div>
         <div
           className={`flex w-full flex-col gap-2 px-2 ${(data?.status === "CANCELED" || data?.status === "FINISHED" || (data?.status === "CLOSED" && type === "home")) && "opacity-30"}`}
@@ -73,10 +74,14 @@ export default function MoimCard({ type, data, customOnClick }: Props) {
               <div className="flex gap-1 text-sm">
                 {[data?.status, data?.location, data?.isPeriodic].map((each, idx) => {
                   const key = `chip:${data?.gatheringId}:${idx}`;
+                  if (each === "OPEN") {
+                    const status = data?.capacity === data?.participantCount ? "CLOSED" : "OPEN";
+                    return <Chip key={key} each={status} />;
+                  }
                   if (typeof each === "boolean") {
                     return each ? <Chip key={key} each="REGULAR" /> : null;
                   }
-                  return <Chip key={key} each={each} />;
+                  return each ? <Chip key={key} each={each} /> : null;
                 })}
               </div>
             </div>
@@ -102,12 +107,12 @@ export default function MoimCard({ type, data, customOnClick }: Props) {
             <div className="absolute flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.4)] text-center text-white">
               {{
                 CANCELED: "취소된 모임",
-                CLOSED: "마감 되었어요",
                 FINISHED: "종료된 모임",
               }[data?.status as string] || ""}
             </div>
-          ) : null}
-          <Image alt="thumbnail" src={data?.image ? data?.image : thumbnail.src} fill className="object-cover" />
+          ) : (
+            <Image alt="thumbnail" src={data?.image ? data?.image : thumbnail.src} fill className="object-cover" />
+          )}
         </div>
         <div
           className={`flex min-w-0 flex-grow flex-col justify-center gap-1 pl-2 ${(data?.status === "CANCELED" || data?.status === "FINISHED") && "opacity-30"}`}
@@ -138,10 +143,14 @@ export default function MoimCard({ type, data, customOnClick }: Props) {
             <div className="flex gap-1 text-sm">
               {[data?.status, data?.location, data?.isPeriodic].map((each, idx) => {
                 const key = `chip:${data?.gatheringId}:${idx}`;
+                if (each === "OPEN") {
+                  const status = data?.capacity === data?.participantCount ? "CLOSED" : "OPEN";
+                  return <Chip key={key} each={status} />;
+                }
                 if (typeof each === "boolean") {
                   return each ? <Chip key={key} each="REGULAR" /> : null;
                 }
-                return <Chip key={key} each={each} />;
+                return each ? <Chip key={key} each={each} /> : null;
               })}
             </div>
           </div>

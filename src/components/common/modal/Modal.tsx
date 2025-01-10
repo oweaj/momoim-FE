@@ -18,8 +18,8 @@ import { X } from "lucide-react";
 interface ModalProps {
   size?: string;
   title?: string;
-  open?: boolean;
-  action?: (open: boolean) => void;
+  open: boolean;
+  action: (open: boolean) => void;
   triggerButton: React.ReactNode;
   content: React.ReactNode;
   showFooter?: boolean;
@@ -27,10 +27,6 @@ interface ModalProps {
 }
 
 export function Modal({ size, title, open, action, triggerButton, content, showFooter = true, onSubmit }: ModalProps) {
-  if (!action) {
-    return null;
-  }
-
   return (
     <Dialog open={open} onOpenChange={action}>
       <DialogTrigger asChild>{triggerButton}</DialogTrigger>

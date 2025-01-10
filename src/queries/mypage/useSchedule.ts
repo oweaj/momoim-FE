@@ -8,5 +8,6 @@ export const useSchedule = (year: number) => {
       const data = await getScheduleApi(year);
       return data;
     },
+    staleTime: 0,
   });
 };

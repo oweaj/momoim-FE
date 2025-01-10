@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DEFAULT_GATHERING_CREATE_VALUES, gatheringCreateSchema } from "@/schemas/gatheringCreate";
+import { getDefaultData, gatheringCreateSchema } from "@/schemas/gatheringCreate";
 import { COMMON_CATEGORIES, SUB_CATEGORIES } from "@/constants/options";
 import SubCategoryButton from "./SubCategoryButton";
 
@@ -10,8 +10,8 @@ const defaultCategory = COMMON_CATEGORIES[0]?.value;
 
 function SubCategotyComponent({ multiple }: { multiple: boolean }) {
   const form = useForm({
-    resolver: zodResolver(gatheringCreateSchema),
-    defaultValues: DEFAULT_GATHERING_CREATE_VALUES,
+    resolver: zodResolver(gatheringCreateSchema(false)),
+    defaultValues: getDefaultData(),
   });
 
   return (

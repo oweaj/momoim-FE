@@ -12,9 +12,10 @@ interface TagsProps {
   selectedValue: string;
   onSelect: (value: string) => void;
   className?: string;
+  prefetch?: (value: string) => void;
 }
 
-export default function Tags({ tags, selectedValue, onSelect, className }: TagsProps) {
+export default function Tags({ tags, selectedValue, onSelect, className, prefetch }: TagsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -34,6 +35,9 @@ export default function Tags({ tags, selectedValue, onSelect, className }: TagsP
         <button
           type="button"
           key={tag.value}
+          onMouseEnter={() => {
+            if (prefetch) prefetch(tag.value);
+          }}
           onClick={() => onSelect(tag.value)}
           className={`${
             tag.value === selectedValue ? "bg-gray-250 text-main" : "bg-gray-100"

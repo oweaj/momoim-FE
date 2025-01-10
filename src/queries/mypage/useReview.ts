@@ -20,7 +20,7 @@ interface ReviewParams {
 
 export const useReview = (sub: string | null) => {
   return useInfiniteQuery({
-    queryKey: ["review", sub],
+    queryKey: ["review", sub || "un-review"],
     queryFn: async ({ pageParam = 0 }) => {
       const page: Pagination = {
         offset: pageParam * 12,
@@ -31,6 +31,7 @@ export const useReview = (sub: string | null) => {
     },
     getNextPageParam: (lastPage) => (lastPage.nextPage !== null ? lastPage.nextPage : undefined),
     initialPageParam: 0,
+    staleTime: 0,
   });
 };
 
@@ -98,7 +99,7 @@ export const useDeleteReview = () => {
     onError: (error: any) => {
       toast({
         variant: "destructive",
-        title: "리뷰 수정 실패",
+        title: "리뷰 삭제 실패",
         description: error.response?.data?.message || "알 수 없는 오류가 발생했습니다.",
         duration: 2000,
       });

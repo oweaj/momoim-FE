@@ -1,9 +1,10 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 import { gatheringCreateApi } from "@/api/gatherings";
 
 export const useGatheringCreate = () => {
+  const queryClient = useQueryClient();
   const router = useRouter();
 
   return useMutation({
@@ -14,6 +15,7 @@ export const useGatheringCreate = () => {
         description: "모임이 생성되었습니다.",
         duration: 2000,
       });
+      queryClient.invalidateQueries({ queryKey: ["gatherings"] });
       router.push("/");
     },
     onError: (error: any) => {

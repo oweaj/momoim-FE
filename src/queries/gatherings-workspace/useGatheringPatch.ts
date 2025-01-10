@@ -16,7 +16,7 @@ export const useGatheringPatch = () => {
         duration: 2000,
       });
       queryClient.invalidateQueries({ queryKey: ["gatheringDetail", id] });
-      localStorage.removeItem("defaultContentData");
+      queryClient.invalidateQueries({ queryKey: ["gatherings"] });
       router.push(`/gatherings/${id}`);
     },
     onError: (error: any) => {

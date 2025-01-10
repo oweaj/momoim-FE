@@ -11,7 +11,7 @@ const getMoim = async (sub: string, page: Pagination) => {
 
 export const useGathering = (sub: string | null) => {
   return useInfiniteQuery({
-    queryKey: ["gatherings", sub],
+    queryKey: ["gatherings", sub || "my-gatherings"],
     queryFn: async ({ pageParam = 0 }) => {
       const page: Pagination = {
         offset: pageParam * 12,

@@ -24,6 +24,10 @@ export default function MypageTabs() {
     },
   ];
 
+  const tabPrefetch = (pathValue: string) => {
+    router.prefetch(pathValue);
+  };
+
   useEffect(() => {
     setCategory(`${path}`);
   }, [path]);
@@ -36,6 +40,7 @@ export default function MypageTabs() {
         setCategory(value);
         router.push(`${value}`);
       }}
+      prefetch={tabPrefetch}
     />
   );
 }

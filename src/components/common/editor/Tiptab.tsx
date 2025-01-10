@@ -48,6 +48,15 @@ function TipTab({ field }: FormDescriptionProps) {
     immediatelyRender: false,
   });
 
+  const handleEditorClick = () => {
+    if (editor) {
+      const { isFocused, isEmpty } = editor;
+      if (isEmpty && !isFocused) {
+        editor.chain().focus().setTextSelection(1).run();
+      }
+    }
+  };
+
   useEffect(() => {
     if (editor) {
       setIsLoading(false);
@@ -59,7 +68,15 @@ function TipTab({ field }: FormDescriptionProps) {
       {isLoading ? (
         <Skeleton className="h-[600px] bg-gray-100" />
       ) : (
-        <div className="h-auto min-h-[600px] rounded-md border border-gray-500">
+        <div
+          className="h-auto min-h-[600px] rounded-md border border-gray-500"
+          onClick={handleEditorClick}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") handleEditorClick();
+          }}
+          role="textbox"
+          tabIndex={0}
+        >
           <Toolbar editor={editor} />
           <EditorContent editor={editor} />
         </div>

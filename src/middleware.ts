@@ -1,10 +1,13 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(request: NextRequest) {
   const accessToken = request.cookies.get("accessToken");
 
   const { pathname } = request.nextUrl;
+
+  const url = request.nextUrl.clone();
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-url", url.toString());
 
   // /mypage 접근 제어
   if (pathname.startsWith("/mypage")) {
@@ -20,9 +23,13 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  return NextResponse.next();
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
 }
 
 export const config = {
-  matcher: ["/mypage/:path*", "/login", "/signup"],
+  matcher: ["/mypage/:path*", "/login", "/signup", "/:path*"],
 };

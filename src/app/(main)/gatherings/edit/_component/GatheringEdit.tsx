@@ -32,7 +32,7 @@ export default function GatheringEditContent() {
 
   return (
     <FormLayout title="모임 수정하기">
-      <GatheringForm mode="edit" id={Number(id)} defaultData={initialData} />
+      <GatheringForm mode id={Number(id)} defaultData={initialData} />
     </FormLayout>
   );
 }

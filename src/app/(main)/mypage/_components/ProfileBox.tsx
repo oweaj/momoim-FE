@@ -6,14 +6,12 @@ import { Button } from "@/components/ui/button";
 import thumbnail from "@/assets/images/thumbnail.png";
 import { useState } from "react";
 import { ProfileData } from "@/types/profile";
-import { User } from "@/types/auth";
+import { useUser } from "@/queries/auth/useUser";
 import ProfileEdit from "./ProfileEdit";
+import MyPageProfileBoxSkeleton from "./skeletons/MyPageProfileBoxSkeleton";
 
-interface Props {
-  data: User;
-}
-
-export default function ProfileBox({ data }: Props) {
+export default function ProfileBox() {
+  const { data, isLoading, error } = useUser();
   const [modalOpen, setModalOpen] = useState(false);
   const sortedData: ProfileData = {
     name: data?.name || "",
@@ -63,9 +61,12 @@ export default function ProfileBox({ data }: Props) {
     )[],
     profileImage: (data?.profileImage !== "DEFAULT_PROFILE_IMAGE" ? data?.profileImage : null) || "",
     subCategory: (data?.interestCategories && data?.interestCategories[0].length > 1 && data?.interestCategories) || [],
-    // subCategory:  data?.interestCategories || [],
     selectedCategory: ["CULTURE"],
   };
+
+  if (!data || isLoading) return <MyPageProfileBoxSkeleton />;
+  if (error) return <div>다시 로그인 해주세요</div>;
+
   return (
     <div className="my-6 w-full rounded-[20px] border-2 border-solid border-[#F0F1F6] p-8">
       <div>

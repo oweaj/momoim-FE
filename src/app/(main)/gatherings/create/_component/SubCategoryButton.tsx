@@ -39,7 +39,7 @@ export default function SubCategoryButton<T extends FieldValues>({
   };
 
   return (
-    <ul className="flex flex-wrap gap-4">
+    <ul id="subCategory-section" className="flex flex-wrap gap-4">
       {subCategoryList.map((sub) => (
         <li key={sub.value}>
           <button

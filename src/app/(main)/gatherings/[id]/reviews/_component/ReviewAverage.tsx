@@ -2,6 +2,7 @@
 
 import ProgressBar from "@/components/common/ProgressBar";
 import Stars from "@/components/common/Star";
+import { scoreMapping } from "@/constants/scoreMapping";
 import { useReviewAverage } from "@/queries/mypage/useReview";
 import { useParams } from "next/navigation";
 
@@ -15,17 +16,10 @@ export default function ReviewAverage() {
   const { averageScore, ...reviewScore } = data;
   const arrayReviewScore = Object.entries(reviewScore).reverse();
   const totalReview = Object.values(reviewScore).reduce((total, count) => total + count, 0);
-  const scoreMapping: { [key: string]: string } = {
-    one: "1",
-    two: "2",
-    three: "3",
-    four: "4",
-    five: "5",
-  };
 
   return (
-    <div className="flex h-52 w-full items-center justify-center bg-gray-100 max-sm:h-auto max-sm:p-6">
-      <div className="flex h-auto w-full max-w-[35rem] items-center justify-center gap-10 max-sm:flex-col">
+    <div className="flex h-52 w-full items-center justify-center rounded-lg bg-gray-100 max-sm:p-4 max-xs:h-auto">
+      <div className="flex w-full max-w-[35rem] items-center justify-center gap-10 max-sm:gap-4 max-xs:flex-col max-xs:gap-6">
         <div className="flex flex-1 flex-col items-center justify-center gap-4">
           <p className="text-5xl font-semibold">
             {data.averageScore} <span className="text-gray-500">/ 5</span>

@@ -4,7 +4,7 @@ import { FormFieldWrapper } from "@/components/common/FormFieldWrapper";
 import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DEFAULT_GATHERING_CREATE_VALUES, gatheringCreateSchema } from "@/schemas/gatheringCreate";
+import { getDefaultData, gatheringCreateSchema } from "@/schemas/gatheringCreate";
 import { ImageUploadApi } from "@/api/imageFile";
 import GatheringUploadImage from "./GatheringUploadImage";
 
@@ -12,8 +12,8 @@ const mockChange = jest.fn();
 
 function ImageUploadComponent() {
   const form = useForm({
-    resolver: zodResolver(gatheringCreateSchema),
-    defaultValues: DEFAULT_GATHERING_CREATE_VALUES,
+    resolver: zodResolver(gatheringCreateSchema(false)),
+    defaultValues: getDefaultData(),
   });
 
   return (
