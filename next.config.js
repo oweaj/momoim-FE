@@ -10,7 +10,7 @@ const nextConfig = {
   },
 
   images: {
-    domains: ["i.ibb.co", "momoim-prod-bucket.s3.ap-northeast-2.amazonaws.com"],
+    domains: ["i.ibb.co", "prod-momoim-bucket.s3.ap-northeast-2.amazonaws.com"],
   },
 
   async redirects() {

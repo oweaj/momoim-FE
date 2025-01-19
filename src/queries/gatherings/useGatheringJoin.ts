@@ -14,6 +14,7 @@ export const useGatheringJoin = () => {
         duration: 2000,
       });
       queryClient.invalidateQueries({ queryKey: ["gatheringDetail", id] });
+      queryClient.invalidateQueries({ queryKey: ["gatherings"] });
     },
     onError: (error: any) => {
       if (error.response?.status === 403) {
