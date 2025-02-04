@@ -1,4 +1,4 @@
-import { gatheringDetailGetApiClient } from "@/api/gatherings";
+import { gatheringDetailGetApiClient } from "@/api/gatherings/gatherings";
 import { GatheringDetail } from "@/types/common/gatheringContent";
 import { useQuery } from "@tanstack/react-query";
 

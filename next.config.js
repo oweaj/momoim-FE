@@ -10,7 +10,13 @@ const nextConfig = {
   },
 
   images: {
-    domains: ["i.ibb.co", "prod-momoim-bucket.s3.ap-northeast-2.amazonaws.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "prod-momoim-bucket.s3.ap-northeast-2.amazonaws.com",
+        pathname: "**",
+      },
+    ],
   },
 
   async redirects() {

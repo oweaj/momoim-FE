@@ -6,7 +6,7 @@ import {
   patchReviewApi,
   postReviewApi,
   reviewsAverageApiClient,
-} from "@/api/review";
+} from "@/api/reviews/review";
 import { toast } from "@/hooks/use-toast";
 import { Pagination } from "@/types/pagination";
 import { ReviewAverage } from "@/types/review";

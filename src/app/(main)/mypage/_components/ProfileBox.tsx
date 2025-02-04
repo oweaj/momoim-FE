@@ -82,7 +82,9 @@ export default function ProfileBox() {
                     : thumbnail.src
                 }
                 fill
+                sizes="100%"
                 className="object-cover"
+                priority
               />
             </div>
             <div className="flex flex-col justify-center p-6">

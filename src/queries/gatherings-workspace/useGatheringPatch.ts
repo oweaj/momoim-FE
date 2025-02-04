@@ -1,4 +1,4 @@
-import { gatheringPatchApi } from "@/api/gatherings";
+import { gatheringPatchApi } from "@/api/gatherings-workspace/gatherings-workspace";
 import { toast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";

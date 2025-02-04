@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "@/hooks/use-toast";
-import { gatheringJoinApi } from "@/api/gatherings";
+import { gatheringJoinApi } from "@/api/gatherings/gatherings";
 
 export const useGatheringJoin = () => {
   const queryClient = useQueryClient();

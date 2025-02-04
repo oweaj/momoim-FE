@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
-import { gatheringCreateApi } from "@/api/gatherings";
+import { gatheringCreateApi } from "@/api/gatherings-workspace/gatherings-workspace";
 
 export const useGatheringCreate = () => {
   const queryClient = useQueryClient();

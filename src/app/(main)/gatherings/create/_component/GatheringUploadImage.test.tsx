@@ -5,7 +5,7 @@ import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getDefaultData, gatheringCreateSchema } from "@/schemas/gatheringCreate";
-import { ImageUploadApi } from "@/api/imageFile";
+import { ImageUploadApi } from "@/api/file/imageFile";
 import GatheringUploadImage from "./GatheringUploadImage";
 
 const mockChange = jest.fn();
@@ -31,7 +31,7 @@ function ImageUploadComponent() {
   );
 }
 
-jest.mock("@/api/imageFile", () => ({
+jest.mock("@/api/file/imageFile", () => ({
   ImageUploadApi: jest.fn(),
 }));
 

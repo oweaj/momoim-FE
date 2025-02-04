@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import { FormFieldWrapper } from "@/components/common/FormFieldWrapper";
 import { useEffect, useState } from "react";
-import { useEditReview, usePostReview } from "@/queries/mypage/useReview";
+import { useEditReview, usePostReview } from "@/queries/reviews/useReview";
 import { GatheringContent } from "@/types/common/gatheringContent";
 import { Review } from "@/types/review";
 import { Textarea } from "@/components/ui/textarea";

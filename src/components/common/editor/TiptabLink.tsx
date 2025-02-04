@@ -43,7 +43,7 @@ export default function TiptabLink({ editor }: { editor: Editor | null }) {
         open={open}
         action={setOpen}
         size="max-xs:w-80 gap-0"
-        triggerButton={<LinkIcon className="h-5 w-5 cursor-pointer" />}
+        triggerButton={<LinkIcon className="h-5 w-5 cursor-pointer" role="button" aria-label="링크 첨부" />}
         content={
           <div className="flex w-full items-center justify-center gap-4">
             <input

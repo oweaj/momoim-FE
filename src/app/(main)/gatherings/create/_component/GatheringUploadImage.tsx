@@ -1,6 +1,6 @@
 "use client";
 
-import { ImageUploadApi } from "@/api/imageFile";
+import { ImageUploadApi } from "@/api/file/imageFile";
 import { ChangeEvent, useRef } from "react";
 import Image from "next/image";
 import { FormFieldProps } from "@/types/common/formFieldprops";
@@ -27,14 +27,14 @@ export default function GatheringUploadImage({ form, field }: FormFieldProps) {
 
   return (
     <div className="flex items-end gap-4 transition-all max-sm:flex-col max-sm:items-baseline">
-      <div className="flex h-56 w-3/4 items-end rounded-xl border border-gray-500 transition-all max-sm:h-64 max-sm:w-full">
+      <div className="relative flex h-56 w-3/4 items-end rounded-xl border border-gray-500 transition-all max-sm:aspect-video max-sm:h-auto max-sm:w-full">
         <Image
           src={imageValue || DefaultThumbnail}
-          className="h-full w-full rounded-xl object-cover"
-          width={500}
-          height={500}
+          className="rounded-xl object-cover"
           alt="모임 생성 이미지"
-          priority={!imageValue}
+          fill
+          sizes="100%"
+          priority
         />
       </div>
       <div className="flex w-full gap-2">

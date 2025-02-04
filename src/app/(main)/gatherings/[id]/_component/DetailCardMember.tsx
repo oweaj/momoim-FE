@@ -4,7 +4,7 @@ import Image from "next/image";
 import DefaultProfile from "@/assets/svg/default-profile.svg";
 import { Members } from "@/types/common/members";
 import clsx from "clsx";
-import { Search, Ellipsis, Divide } from "lucide-react";
+import { Search, Ellipsis } from "lucide-react";
 import { Modal } from "@/components/common/modal/Modal";
 import { useState } from "react";
 import { DetailContent } from "@/types/common/gatheringContent";
@@ -29,7 +29,7 @@ export default function DetailCardMember({ data, members, managerName, defaultVi
           title="맴버 리스트"
           size="max-xs:w-11/12"
           triggerButton={
-            <div className="flex cursor-pointer items-center gap-2">
+            <div className="flex cursor-pointer items-center gap-2" role="button">
               <div className="flex gap-2.5">
                 {members?.map((member, idx) => {
                   if (defaultView ? idx >= 6 : idx >= 4) return null;
@@ -41,14 +41,20 @@ export default function DetailCardMember({ data, members, managerName, defaultVi
                       {member.profileImage === "DEFAULT_PROFILE_IMAGE" ? (
                         <DefaultProfile />
                       ) : (
-                        <Image alt="member-image" layout="fill" objectFit="cover" src={member.profileImage} />
+                        <Image
+                          alt="member-image"
+                          fill
+                          sizes="100%"
+                          className="object-cover"
+                          src={member.profileImage}
+                        />
                       )}
                     </div>
                   );
                 })}
               </div>
               {data?.participantCount > 6 && <Ellipsis className="h-4 w-4" />}
-              <button type="button">
+              <button type="button" aria-label="맴버리스트 더보기">
                 <Search className="h-5 w-5 text-gray-700" />
               </button>
             </div>

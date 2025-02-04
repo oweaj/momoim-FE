@@ -1,6 +1,6 @@
 "use client";
 
-import { useLike } from "@/queries/mypage/useLike";
+import { useLike } from "@/queries/wishlist/useLike";
 import { motion } from "framer-motion";
 import Cookies from "js-cookie";
 import { toast } from "@/hooks/use-toast";

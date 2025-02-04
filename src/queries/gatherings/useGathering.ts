@@ -1,11 +1,13 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { getMyCreatedMoimApi, getMyLikedMoimApi, getMyMoimApi } from "@/api/moim";
 import { Pagination } from "@/types/pagination";
+import { getWishlist } from "@/api/wishlist/like";
+import { gatheringGetApi } from "@/api/gatherings-workspace/gatherings-workspace";
+import { gatheringJoinedApi } from "@/api/gatherings/gatherings";
 
 const getMoim = async (sub: string, page: Pagination) => {
-  if (sub === "my-gatherings") return getMyMoimApi(page);
-  if (sub === "created") return getMyCreatedMoimApi(page);
-  if (sub === "liked") return getMyLikedMoimApi(page);
+  if (sub === "my-gatherings") return gatheringJoinedApi(page);
+  if (sub === "created") return gatheringGetApi(page);
+  if (sub === "liked") return getWishlist(page);
   return {};
 };
 

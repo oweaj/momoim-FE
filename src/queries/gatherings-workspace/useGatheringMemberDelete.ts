@@ -1,4 +1,4 @@
-import { gatheringMemberDeleteApi } from "@/api/gatherings";
+import { gatheringMemberDeleteApi } from "@/api/gatherings-workspace/gatherings-workspace";
 import { toast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 

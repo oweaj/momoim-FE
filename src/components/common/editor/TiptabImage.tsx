@@ -1,4 +1,4 @@
-import { ImageUploadApi } from "@/api/imageFile";
+import { ImageUploadApi } from "@/api/file/imageFile";
 import { TextSelection } from "@tiptap/pm/state";
 import { Editor } from "@tiptap/react";
 import { Image as ImageIcon } from "lucide-react";
@@ -11,7 +11,7 @@ export default function TiptabImage({ editor }: { editor: Editor | null }) {
 
     if (selectFile && editor) {
       const uploadImage = await ImageUploadApi("editorImage", selectFile);
-      editor.chain().focus().setImage({ src: uploadImage }).run();
+      editor.chain().focus().setImage({ src: uploadImage, alt: "에디터 첨부 이미지" }).run();
 
       const { to } = editor.state.selection;
       const tr = editor.state.tr.insert(to, editor.schema.nodes.paragraph.create());

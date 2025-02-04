@@ -1,7 +1,7 @@
-import { gatheringDetailGetApi } from "@/api/gatherings";
+import { gatheringDetailGetApi } from "@/api/gatherings/gatherings";
 import BackButton from "@/app/_component/BackButton";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import { gatheringReviewsApi, reviewsAverageApi } from "@/api/review";
+import { gatheringReviewsApi, reviewsAverageApi } from "@/api/reviews/review";
 import GatheringDeteilContent from "./_component/GatheringDeteil";
 import DetailPageTab from "./_component/DetailPageTab";
 import DetailCheckTime from "./_component/DetailCheckTime";
@@ -35,7 +35,7 @@ export default async function Layout({ children, params }: LayoutProps) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div className="justify-betwee flex gap-14">
+      <div className="justify-betwee flex gap-10">
         <div className="flex flex-1 flex-col gap-6">
           <BackButton home />
           <GatheringDeteilContent id={id} />

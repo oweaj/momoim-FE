@@ -4,13 +4,12 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { GatheringContent } from "@/types/common/gatheringContent";
 import Tags from "@/components/common/Tags";
 import MoimCard from "@/components/common/cards/MoimCard";
-import { useRef, useState, useEffect } from "react";
-import { useGathering } from "@/queries/mypage/useGathering";
+import { useRef, useState } from "react";
+import { useGathering } from "@/queries/gatherings/useGathering";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { useLoading } from "@/hooks/useLoading";
 import EmptyStatePicker from "../_components/EmptyStatePicker";
 import MyGatheringsSkeleton from "../_components/skeletons/MyGatheringsSkeleton";
-import ClientRedirectHandler from "../_components/ClientRedirectHandler";
 
 export default function MyMoim() {
   const observerTarget = useRef<HTMLDivElement>(null);
@@ -53,6 +52,9 @@ export default function MyMoim() {
         onSelect={(value) => {
           setSubcategory(value);
           router.push(`${path}?sub=${value}`);
+        }}
+        prefetch={(value) => {
+          router.prefetch(`${path}?sub=${value}`);
         }}
       />
       <div className="w-full">

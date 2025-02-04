@@ -22,7 +22,14 @@ export default function UnreviewedCard({ data }: Props) {
     <div className="max-w-[375px]">
       <div className="flex w-full items-center gap-2 py-2 sm:items-center">
         <div className="relative flex aspect-square h-[20%] w-[20%] items-center justify-center overflow-hidden rounded-xl border-2 border-solid border-gray-200 xs:h-24 xs:w-24">
-          <Image alt="thumbnail" src={data?.image ? data?.image : thumbnail.src} fill className="object-cover" />
+          <Image
+            alt="thumbnail"
+            src={data?.image ? data?.image : thumbnail.src}
+            fill
+            sizes="100%"
+            className="object-cover"
+            priority
+          />
         </div>
         <div
           className={`flex h-24 min-w-0 flex-grow flex-col justify-center gap-1 pl-2 ${(data?.status === "CANCELED" || data?.status === "FINISHED") && "opacity-30"}`}

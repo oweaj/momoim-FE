@@ -75,6 +75,7 @@ function TipTab({ field }: FormDescriptionProps) {
             if (e.key === "Enter" || e.key === " ") handleEditorClick();
           }}
           role="textbox"
+          aria-label="텍스트 에디터"
           tabIndex={0}
         >
           <Toolbar editor={editor} />

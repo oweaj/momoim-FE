@@ -3,7 +3,7 @@
 import ReviewCard from "@/components/common/cards/ReviewCard";
 import { EmptyState } from "@/components/common/EmptyState";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
-import { useGatheringReviews } from "@/queries/mypage/useReview";
+import { useGatheringReviews } from "@/queries/reviews/useReview";
 import { GatheringReview } from "@/types/review";
 import { useParams } from "next/navigation";
 import { useRef } from "react";

@@ -3,7 +3,7 @@
 import ProgressBar from "@/components/common/ProgressBar";
 import Stars from "@/components/common/Star";
 import { scoreMapping } from "@/constants/scoreMapping";
-import { useReviewAverage } from "@/queries/mypage/useReview";
+import { useReviewAverage } from "@/queries/reviews/useReview";
 import { useParams } from "next/navigation";
 
 export default function ReviewAverage() {

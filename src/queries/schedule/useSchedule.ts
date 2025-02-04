@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getScheduleApi } from "@/api/schedule";
+import { getScheduleApi } from "@/api/schedule/schedule";
 
 export const useSchedule = (year: number) => {
   return useQuery({

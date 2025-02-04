@@ -3,15 +3,14 @@
 import ReviewCard from "@/components/common/cards/ReviewCard";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { GatheringContent } from "@/types/common/gatheringContent";
-import { useEffect, useRef, useState } from "react";
-import { useReview } from "@/queries/mypage/useReview";
+import { useRef, useState } from "react";
+import { useReview } from "@/queries/reviews/useReview";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { useLoading } from "@/hooks/useLoading";
 import UnreviewedCard from "../_components/UnreviewedCard";
 import Tags from "../../../../components/common/Tags";
 import EmptyStatePicker from "../_components/EmptyStatePicker";
 import MyReviewsSkeleton from "../_components/skeletons/MyReviewsSkeleton";
-import ClientRedirectHandler from "../_components/ClientRedirectHandler";
 
 interface Review {
   reviewId: number;

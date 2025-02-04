@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "@/hooks/use-toast";
-import { deleteWishlist, postWishlist } from "@/api/like";
+import { deleteWishlist, postWishlist } from "@/api/wishlist/like";
 
 interface HeartParams {
   id: number;

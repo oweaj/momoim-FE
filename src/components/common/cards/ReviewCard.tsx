@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import ReviewPostSection from "@/app/(main)/mypage/_components/ReviewPostSection";
 import { format } from "date-fns";
-import { useDeleteReview } from "@/queries/mypage/useReview";
+import { useDeleteReview } from "@/queries/reviews/useReview";
 import { Review } from "@/types/review";
 import Stars from "../Star";
 import { Modal } from "../modal/Modal";

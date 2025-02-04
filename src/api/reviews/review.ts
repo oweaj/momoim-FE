@@ -1,11 +1,13 @@
 import { clientAxios, serverAxios } from "@/lib/axios";
 import { Pagination } from "@/types/pagination";
 
+// 리뷰 작성 가능한 모임 조회 or 작성한 리뷰 목록 조회
 export const getReviewsApi = async (type: string, page: Pagination) => {
   const { data } = await clientAxios.get(`api/reviews/${type}?offset=${page.offset}&limit=${page.limit}`);
   return data.data;
 };
 
+// 모임 리뷰 작성
 export const postReviewApi = async (gatheringId: number, score: number, title: string, comment: string) => {
   const { data } = await clientAxios.post(`api/reviews`, {
     gatheringId,
@@ -16,11 +18,13 @@ export const postReviewApi = async (gatheringId: number, score: number, title: s
   return data;
 };
 
+// 모임 리뷰 삭제
 export const deleteReviewApi = async (id: number) => {
   const { data } = await clientAxios.delete(`api/reviews/${id}`);
   return data;
 };
 
+// 모임 리뷰 수정
 export const patchReviewApi = async (id: number, score: number, title: string, comment: string) => {
   const { data } = await clientAxios.patch(`api/reviews/${id}`, {
     score,
@@ -31,7 +35,7 @@ export const patchReviewApi = async (id: number, score: number, title: string, c
 };
 
 // 모임 리뷰 조회
-export const gatheringReviewsApi = async (id: number, { offset, limit }: { offset: number; limit: number }) => {
+export const gatheringReviewsApi = async (id: number, { offset, limit }: Pagination) => {
   const { data } = await serverAxios.get(`api/reviews/${id}`, { params: { offset, limit } });
   return {
     data: data.data,
@@ -39,7 +43,7 @@ export const gatheringReviewsApi = async (id: number, { offset, limit }: { offse
   };
 };
 
-export const gatheringReviewsApiClient = async (id: number, { offset, limit }: { offset: number; limit: number }) => {
+export const gatheringReviewsApiClient = async (id: number, { offset, limit }: Pagination) => {
   const { data } = await clientAxios.get(`api/reviews/${id}`, { params: { offset, limit } });
   return {
     data: data.data,

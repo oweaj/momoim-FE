@@ -91,7 +91,7 @@ export default function MemberModal({ members, managerName, setMemberOpen }: Mem
                 {profileImage === "DEFAULT_PROFILE_IMAGE" ? (
                   <DefaultProfile />
                 ) : (
-                  <Image src={profileImage} layout="fill" objectFit="cover" alt="member-image" />
+                  <Image src={profileImage} fill sizes="100%" className="object-cover" alt="member-image" />
                 )}
               </div>
               <span className="w-3/4 overflow-hidden text-ellipsis whitespace-nowrap max-xs:w-36">{name}</span>

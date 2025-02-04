@@ -4,11 +4,10 @@ import React, { useState } from "react";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { ScheduleData } from "@/types/common/scheduleData";
-import { useSchedule } from "@/queries/mypage/useSchedule";
+import { useSchedule } from "@/queries/schedule/useSchedule";
 import ScheduleBox from "../_components/ScheduleBox";
 import { MyPageCalendar } from "../_components/MyPageCalendar";
 import MySchedulesSkeleton from "../_components/skeletons/MySchedulesSkeleton";
-import ClientRedirectHandler from "../_components/ClientRedirectHandler";
 
 export default function MySchedule() {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());

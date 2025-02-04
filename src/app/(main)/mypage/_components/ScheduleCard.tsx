@@ -27,6 +27,7 @@ export default function ScheduleCard({ data }: Props) {
             alt="thumbnail"
             src={data?.gatheringImage ? data?.gatheringImage : thumbnail.src}
             fill
+            sizes="100%"
             className="object-cover"
           />
         </div>

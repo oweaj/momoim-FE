@@ -151,7 +151,7 @@ HTTPS 환경에서 특정 기능(예: Set-Cookie 테스트)을 개발하거나 �
 
 ## **🔍 아키텍처**
 
-<img width="789" alt="프로젝트 아키텍처" src="https://github.com/user-attachments/assets/09aa8511-a931-4d60-bfa1-892adbcb47a9" />
+<img width="672" alt="프로젝트 아키텍처 이미지" src="https://github.com/user-attachments/assets/f40c5569-b749-4c4b-a200-c14a9e73dd28" />
 
 <br>
 
